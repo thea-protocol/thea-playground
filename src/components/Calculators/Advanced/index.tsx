@@ -36,7 +36,7 @@ import Motorbike from './Motorbike';
 
 
 
-export default function multistep() {
+export default function Advanced({setFootprint}) {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);

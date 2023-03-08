@@ -39,7 +39,7 @@ function Calculators() {
                 <Villages />
             </TabPanel>
             <TabPanel>
-                <Advanced />
+                <Advanced setFootprint={setFootprint}/>
             </TabPanel>
         </TabPanels>
     </Tabs>
