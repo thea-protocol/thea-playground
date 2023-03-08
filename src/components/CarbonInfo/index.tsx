@@ -6,19 +6,18 @@ import OffsetStats from './OffsetStats'
 import OffsetHist from './OffsetHist'
 import UserBalance from './UserBalance'
 
-
-function CarbonInfo({sdk, address}) {
+function CarbonInfo() {
   return (
     <>
     <Heading py="4">
       Carbon Info
     </Heading>
     <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(300px, 1fr))'>
-        <TokenHist sdk={sdk} />
-        <TokenStats sdk={sdk} />
-        <OffsetStats sdk={sdk} />
-        <OffsetHist sdk={sdk} />
-        <UserBalance sdk={sdk} address={address} />
+        <TokenHist />
+        <TokenStats />
+        <OffsetStats />
+        <OffsetHist />
+        <UserBalance />
     </SimpleGrid>
 
     </>

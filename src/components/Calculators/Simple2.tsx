@@ -22,9 +22,13 @@ import {
     TableContainer,
   } from '@chakra-ui/react'
 import { Chart } from './Simple1Chart'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
 
-function Simple2({sdk, setFootprint}) {
+
+function Simple2({setFootprint}) {
+  const { theaSDK, userBalance, account } = useContext(TheaSDKContext);
+
     const [countries, setCountries] = useState([
         {country: 'Guyana', isoCode: 'GUY'},
         {country: 'Haiti', isoCode: 'HTI'},
@@ -72,23 +76,22 @@ function Simple2({sdk, setFootprint}) {
     useEffect(() => {
 
         const birthYear = 2023 - age
-        if (sdk) {
-            const res = sdk?.carbonInfo.estimateFootprint(birthYear, [
-                {
-                    isoCode: 'PRT',
-                    year: '2010',
-                  },
-                  {
-                      isoCode: country,
-                      year: null,
-                    },
-              ]);
-              setFootprint(res.footprint)
-              makeChartData(res)
-              setSummary(res.summary)              
-              
+        const res = theaSDK?.carbonInfo.estimateFootprint(birthYear, [
+            {
+                isoCode: 'PRT',
+                year: '2010',
+              },
+              {
+                  isoCode: country,
+                  year: null,
+                },
+          ]);
+          if (res) {
 
-        }
+            setFootprint(res.footprint)
+            makeChartData(res)
+            setSummary(res.summary)              
+          }
       }, [country, age, setFootprint]);
 
 

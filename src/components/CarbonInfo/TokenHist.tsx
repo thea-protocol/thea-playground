@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Card, CardHeader, Heading, CardBody, CardFooter, Button } from '@chakra-ui/react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function TokenHist({ sdk }) {
+function TokenHist() {
+  const { theaSDK } = useContext(TheaSDKContext);  
     const [output, setOutput] = useState({})    
 
     const queryTokenizationHistory = async () => {
-        const info = await sdk.carbonInfo.queryTokenizationHistory()
+        const info = await theaSDK.carbonInfo.queryTokenizationHistory()
         setOutput(info)  
     }    
 

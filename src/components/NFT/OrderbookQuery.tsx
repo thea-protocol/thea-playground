@@ -1,27 +1,28 @@
 import { Card, CardBody, CardHeader, Heading, CardFooter, Button, Text, ButtonGroup } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function OrderbookQuery({sdk, address}) {
+function OrderbookQuery() {
+  const { theaSDK, account } = useContext(TheaSDKContext);  
   const [output, setOutput] = useState({})   
   const [tokenId, setTokenId] = useState(2)  
 
   const queryOrdersInfo = async () => {
-    const owner = address
-    const transactionReceipt = await sdk.nftOrderbook.queryOrdersInfo(tokenId, owner)
+    const transactionReceipt = await theaSDK.nftOrderbook.queryOrdersInfo(tokenId, account)
     console.log(transactionReceipt)
     setOutput(transactionReceipt)  
 }  
 
   const queryPriceListing = async () => {
     const side = "sell"
-    const transactionReceipt = await sdk.nftOrderbook.queryPriceListing(tokenId, side)
+    const transactionReceipt = await theaSDK.nftOrderbook.queryPriceListing(tokenId, side)
     console.log(transactionReceipt)
     setOutput(transactionReceipt)  
   }    
 
   const queryOrderByNonce = async () => {
     const nonce = 1
-    const transactionReceipt = await sdk.nftOrderbook.queryOrderByNonce(nonce)
+    const transactionReceipt = await theaSDK.nftOrderbook.queryOrderByNonce(nonce)
     console.log(transactionReceipt)
     setOutput(transactionReceipt)  
   }    
@@ -31,7 +32,7 @@ function OrderbookQuery({sdk, address}) {
       <CardHeader>
         <Heading size='md'> Query Orderbook</Heading>    
         <Text fontSize="xs">
-        { address }  
+        { account }  
 
         </Text>
       </CardHeader>

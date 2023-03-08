@@ -1,11 +1,13 @@
 import { Card, CardBody, CardHeader, Heading, CardFooter, Button, Text, ButtonGroup } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function TokenList({sdk}) {
+function TokenList() {
+  const { theaSDK } = useContext(TheaSDKContext);  
   const [output, setOutput] = useState({})   
 
   const getTokenList = async () => {
-    const info = await sdk.nftTokenList.getTokenList()
+    const info = await theaSDK.nftTokenList.getTokenList()
     setOutput(info)
 }     
 

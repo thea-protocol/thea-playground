@@ -1,6 +1,5 @@
-import React, { useState} from 'react'
+import React, { useState, useContext} from 'react'
 import { SimpleGrid, Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, FormControl, FormLabel, Select, GridItem, ButtonGroup } from '@chakra-ui/react'
-
 import {
   NumberInput,
   NumberInputField,
@@ -8,8 +7,10 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function QuoteTrade({sdk}) {
+function QuoteTrade() {
+  const { theaSDK } = useContext(TheaSDKContext);
   const [tokenIn, setTokenIn] = useState("Stable")
   const [tokenOut, setTokenOut] = useState("CurrentNBT")
   const [amountIn, setAmountIn] = useState(1)
@@ -17,7 +18,7 @@ function QuoteTrade({sdk}) {
 
   const getQuote = async () => {
     console.log(tokenIn, tokenOut, amountIn)
-    const priceInWEI = await sdk.fungibleTrading.queryTokenPrice({
+    const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
       tokenIn,
       tokenOut,
       amountIn: (amountIn * 1e18).toString()
@@ -26,7 +27,7 @@ function QuoteTrade({sdk}) {
   }
 
   const buy = async () => {
-    const transactionReceipt = await sdk.fungibleTrading.swapTokens({
+    const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
       tokenIn,
       tokenOut,
       amountIn: (amountIn * 1e18).toString()

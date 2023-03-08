@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Card, CardHeader, Heading, CardBody, CardFooter, Button } from '@chakra-ui/react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function UserBalance({ sdk, address }) {
+function UserBalance() {
+    const { theaSDK, account } = useContext(TheaSDKContext);  
     const [output, setOutput] = useState({})    
 
     const getUsersBalance = async () => {
-        console.log(address)
-          const info = await sdk.carbonInfo.getUsersBalance(address)
+        console.log(account)
+          const info = await theaSDK.carbonInfo.getUsersBalance(account)
           setOutput(info)  
       }    
 

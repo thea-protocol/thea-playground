@@ -1,5 +1,6 @@
-import React, { useState} from 'react'
-import { SimpleGrid, Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, FormControl, FormLabel, Select, GridItem, ButtonGroup } from '@chakra-ui/react'
+import React, { useState, useContext } from 'react'
+import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, FormControl, FormLabel, Select, GridItem, ButtonGroup } from '@chakra-ui/react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
 import {
   NumberInput,
@@ -9,17 +10,14 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react'
 
-function OffsetFungible({sdk}) {
+function OffsetFungible() {
+  const { theaSDK } = useContext(TheaSDKContext);  
   const [amountIn, setAmountIn] = useState(1)
 
-
   const offset = async () => {
-
-    const transactionReceipt = await sdk.offset.offsetFungible(2017, "2000");
+    const transactionReceipt = await theaSDK.offset.offsetFungible(2017, "2000");
     console.log(transactionReceipt)
-
   }
-
 
   return (
   <Card>

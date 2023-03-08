@@ -1,7 +1,9 @@
 import { Card, CardBody, CardHeader, Heading, CardFooter, Button, Text, ButtonGroup } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function TokenTrading({sdk, address}) {
+function TokenTrading() {
+  const { theaSDK, account } = useContext(TheaSDKContext);  
   const [output, setOutput] = useState({})   
   const [tokenId, setTokenId] = useState(2)
   const [quantity, setQuantity] = useState(1)  
@@ -10,7 +12,7 @@ function TokenTrading({sdk, address}) {
 
   const enterOrder = async () => {
 
-    const priceInWEI = await sdk.nftTrading.enterNFTLimit(
+    const priceInWEI = await theaSDK.nftTrading.enterNFTLimit(
       tokenId, // token id of the NFT
       side, // buy or sell
       price, // price of the NFT in Stablecoins
@@ -26,7 +28,7 @@ function TokenTrading({sdk, address}) {
       <CardHeader>
         <Heading size='md'> NFT Trading</Heading>    
         <Text fontSize="xs">
-        { address }  
+        { account }  
 
         </Text>
       </CardHeader>

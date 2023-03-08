@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Card, CardHeader, Heading, CardBody, CardFooter, Button } from '@chakra-ui/react'
 import { Text, HStack, VStack, StackDivider, Box } from '@chakra-ui/react'
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function Balance({sdk, address}) {
+function Balance() {
+  const { theaSDK, account } = useContext(TheaSDKContext);  
     const [balances, setBalances] = useState({"fungible":{"vintage":"0","rating":"0","sdg":"0","nbt":"0"},"nft":{}})
 
     const refresh = async () => {
-        console.log(address)
-        const res = await sdk.carbonInfo.getUsersBalance(address);
+        console.log(account)
+        const res = await theaSDK.carbonInfo.getUsersBalance(account);
         setBalances(res)
         console.log(res)
     }

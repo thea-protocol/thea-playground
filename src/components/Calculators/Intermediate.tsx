@@ -31,7 +31,7 @@ function Intermediate() {
             Tell us about your household
         </Text>
 
-        <FormControl>
+        <FormControl display='flex' alignItems='center' py="2">
             <FormLabel>Number of residents including myself:</FormLabel>
                 <Select>
                     <option value="1">1</option>
@@ -43,7 +43,7 @@ function Intermediate() {
                 </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl  display='flex' alignItems='center' py="2">
             <FormLabel>I live in a:</FormLabel>
             <Select>
                 <option value="1">Detached single family home</option>
@@ -53,7 +53,7 @@ function Intermediate() {
                 <option value="5">Mobile Home </option>
             </Select>
         </FormControl>
-        <FormControl>
+        <FormControl  display='flex' alignItems='center' py="2">
             <FormLabel>Size of housing</FormLabel>
             <Select>
                 <option value="1">Under 500 sq ft </option>
@@ -67,7 +67,7 @@ function Intermediate() {
             </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl  display='flex' alignItems='center' py="2">
             <FormLabel>Do you purchase clean energy such as wind or solar?</FormLabel>
                 <Select>
                     <option value="1">Yes, some</option>
@@ -78,7 +78,7 @@ function Intermediate() {
                 </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl  display='flex' alignItems='center' py="2">
             <FormLabel>Do you recycle items such as metal, plastic, glass, or paper?</FormLabel>
             <RadioGroup onChange={setRecycle} value={recycle}>
             <Stack direction='row'>
@@ -88,7 +88,7 @@ function Intermediate() {
             </RadioGroup>
         </FormControl>
 
-        <FormControl>
+        <FormControl display='flex' alignItems='center'>
             <FormLabel>My diet is mostly:</FormLabel>
                 <Select>
                     <option value="1">Meat Lover</option>
@@ -99,7 +99,7 @@ function Intermediate() {
                 </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl  display='flex' alignItems='center' py="2">
             <FormLabel>Do you make a conscious effort to save energy? Check all that apply.</FormLabel>
             <CheckboxGroup defaultValue={[]}>
             <VStack spacing={[1, 5]} direction={['column', 'row']} align="left">

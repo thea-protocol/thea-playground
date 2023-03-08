@@ -1,12 +1,9 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import {
   IconButton,
-  Avatar,
   Box,
   CloseButton,
   Flex,
-  HStack,
-  VStack,
   Icon,
   useColorModeValue,
   Link,
@@ -16,12 +13,8 @@ import {
   useDisclosure,
   BoxProps,
   FlexProps,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
 } from '@chakra-ui/react';
+import { NavLink as RouterLink, Outlet } from "react-router-dom";
 import {
   FiHome,
   FiTrendingUp,
@@ -29,12 +22,12 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
-  FiBell,
-  FiChevronDown,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
-import Auth from './Auth';
+import Connect from './Connect';
+import Balances from './Balances';
+
 
 interface LinkItemProps {
   name: string;
@@ -49,7 +42,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Carbon Info', icon: FiSettings, href: '/info' },
 ];
 
-export default function SidebarWithHeader({children, magic, setSDK, address, setAddress}) {
+export default function SidebarWithHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
@@ -73,11 +66,9 @@ export default function SidebarWithHeader({children, magic, setSDK, address, set
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen} connect={
-              <Auth magic={magic} setSDK={setSDK} address={address} setAddress={setAddress}/>
-      }/>
+      <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
+      <Outlet />
       </Box>
     </Box>
   );
@@ -109,6 +100,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           {link.name}
         </NavItem>
       ))}
+      <Balances />
     </Box>
   );
 };
@@ -120,7 +112,7 @@ interface NavItemProps extends FlexProps {
 }
 const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
   return (
-    <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link as={RouterLink} to={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         px="4"
@@ -152,7 +144,6 @@ const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
-  connect: ReactNode;
 }
 const MobileNav = ({ connect, onOpen, ...rest }: MobileProps) => {
   return (
@@ -166,7 +157,7 @@ const MobileNav = ({ connect, onOpen, ...rest }: MobileProps) => {
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}>
-        { connect }
+
       <IconButton
         display={{ base: 'flex', md: 'none' }}
         onClick={onOpen}
@@ -181,50 +172,8 @@ const MobileNav = ({ connect, onOpen, ...rest }: MobileProps) => {
         fontWeight="bold">
         TheaProtocol
       </Text>
-      {/* 
+      <Connect />
 
-
-      <HStack spacing={{ base: '0', md: '6' }}>
-        <Flex alignItems={'center'}>
-          <Menu>
-            <MenuButton
-              py={2}
-              transition="all 0.3s"
-              _focus={{ boxShadow: 'none' }}>
-              <HStack>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-                <VStack
-                  display={{ base: 'none', md: 'flex' }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2">
-                  <Text fontSize="sm">Justina Clark</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    Admin
-                  </Text>
-                </VStack>
-                <Box display={{ base: 'none', md: 'flex' }}>
-                  <FiChevronDown />
-                </Box>
-              </HStack>
-            </MenuButton>
-            <MenuList
-              bg={useColorModeValue('white', 'gray.900')}
-              borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
-      </HStack> */}
-    </Flex>
+  </Flex>
   );
 };

@@ -1,4 +1,5 @@
 import {
+    Switch,
     FormControl,
     FormLabel,
     NumberInput,
@@ -10,30 +11,36 @@ import {
     Card,
     CardBody,
     CardHeader, Heading, CardFooter, Button, Text, ButtonGroup } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { ethers } from 'ethers'
 import { erc1155ABI } from '../../constants'
 import { parseUnits } from "ethers/lib/utils.js";
+import { convertWithSig, recoverWithSig, retireWithSig } from "../../utils/utils";
+import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
-function TokenActions({sdk, address}) {
+function TokenActions() {
+  const { theaSDK, account } = useContext(TheaSDKContext);  
   const [output, setOutput] = useState({})   
   const [tokenId, setTokenId] = useState(2)
   const [amount, setAmount] = useState(1)
+  const [withSig, setWithSig] = useState(false)
 
-  const contract = new ethers.Contract("0x0d1543fa8057487f2fd36a643f1f211b2bc2b4b5", erc1155ABI, sdk.providerOrSigner);
+  const contract = new ethers.Contract("0x0d1543fa8057487f2fd36a643f1f211b2bc2b4b5", erc1155ABI, theaSDK.providerOrSigner);
 
   const getTokenBalance = async () => {
-    const info = (await contract.balanceOf(address, tokenId)).toString()
+    const info = (await contract.balanceOf(account, tokenId)).toString()
     setOutput(info)
   }     
 
-    const convert = async (withSig?: boolean) => {
-        if (!address || !tokenId || !amount) return;
+    const convert = async () => {
+        if (!account || !tokenId || !amount) return;
         if (withSig) {
             console.log("Implementing Signature...")
+            await convertWithSig(tokenId, amount, account);
+
         } else {
         try {
-            await sdk?.convert.convertNFT(tokenId, amount);
+            await theaSDK?.convert.convertNFT(tokenId, amount);
             alert("Transaction successful");
         } catch (error) {
             alert("Transaction failed");
@@ -42,13 +49,26 @@ function TokenActions({sdk, address}) {
         }
     };    
 
-    const recover = async (withSig?: boolean) => {
-        if (!address || !tokenId || !amount) return;
+    const recover = async () => {
+        if (!account || !tokenId || !amount) return;
         if (withSig) {
             console.log("Implementing Signature...")
+            const tokensRequired = await theaSDK.recover.queryRecoverFungibles(
+              tokenId,
+              amount
+            );
+            await recoverWithSig(
+              tokenId,
+              amount,
+              tokensRequired.cbt,
+              tokensRequired.vintage,
+              tokensRequired.sdg,
+              tokensRequired.rating,
+              account
+            );            
         } else {
         try {
-            await sdk?.recover.recoverNFT(tokenId, amount);
+            await theaSDK?.recover.recoverNFT(tokenId, amount);
             alert("Transaction successful");
         } catch (error) {
             alert("Transaction failed");
@@ -59,9 +79,17 @@ function TokenActions({sdk, address}) {
 
     const retire = async () => {
 
-        const transactionReceipt = await sdk.offset.offsetNFT(tokenId, amount);
-        setOutput(transactionReceipt)
-
+      if (!account || !tokenId || !amount || !theaSDK) return;
+      try {
+        if (withSig) {
+          await retireWithSig(tokenId, amount, account);
+        } else {
+          await theaSDK.offset.offsetNFT(tokenId, amount);
+        }
+      } catch (error) {
+          alert("Transaction failed");
+        console.log(error);
+      }
     }
 
 
@@ -70,12 +98,19 @@ function TokenActions({sdk, address}) {
       <CardHeader>
         <Heading size='md'> Token Actions</Heading>    
         <Text fontSize="xs">
-        { address }  
+        { account }  
 
         </Text>
 
       </CardHeader>
       <CardBody className="text-xs overflow-auto">
+      <FormControl display='flex' alignItems='center' py="2">
+      <FormLabel htmlFor='withSig' mb='0'>
+        Use Relayer?
+      </FormLabel>
+      <Switch id='withSig' isChecked={withSig} onChange={() => setWithSig(!withSig)}/>
+    </FormControl>        
+
       <FormControl as={GridItem} colSpan={[6, 3]} py="2">
         <FormLabel
           fontSize="sm"
@@ -110,6 +145,7 @@ function TokenActions({sdk, address}) {
                 {JSON.stringify(output, null, 2)}
         </CardBody>
       <CardFooter>
+
         <ButtonGroup size="xs">
           <Button  onClick={getTokenBalance}>Balance</Button>
           <Button  onClick={() => convert()}>Convert</Button>
