@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Card, CardBody, Select, Text } from '@chakra-ui/react'
+import { Card, CardBody, Select, Text, Box } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { Checkbox, CheckboxGroup, VStack } from '@chakra-ui/react'
 import { Radio, RadioGroup, Stack } from '@chakra-ui/react'
 import {
-    Flex,
     FormControl,
     FormLabel,
     FormErrorMessage,
@@ -32,7 +31,7 @@ function Intermediate() {
         </Text>
 
         <FormControl display='flex' alignItems='center' py="2">
-            <FormLabel>Number of residents including myself:</FormLabel>
+            <FormLabel w="96">Number of residents including myself:</FormLabel>
                 <Select>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -44,7 +43,7 @@ function Intermediate() {
         </FormControl>
 
         <FormControl  display='flex' alignItems='center' py="2">
-            <FormLabel>I live in a:</FormLabel>
+            <FormLabel w="96">I live in a:</FormLabel>
             <Select>
                 <option value="1">Detached single family home</option>
                 <option value="2">Attached single family home </option>
@@ -54,7 +53,7 @@ function Intermediate() {
             </Select>
         </FormControl>
         <FormControl  display='flex' alignItems='center' py="2">
-            <FormLabel>Size of housing</FormLabel>
+            <FormLabel w="96">Size of housing</FormLabel>
             <Select>
                 <option value="1">Under 500 sq ft </option>
                 <option value="2">500-999</option>
@@ -68,7 +67,7 @@ function Intermediate() {
         </FormControl>
 
         <FormControl  display='flex' alignItems='center' py="2">
-            <FormLabel>Do you purchase clean energy such as wind or solar?</FormLabel>
+            <FormLabel w="96">Do you purchase clean energy such as wind or solar?</FormLabel>
                 <Select>
                     <option value="1">Yes, some</option>
                     <option value="2">Yes, most</option>
@@ -79,7 +78,7 @@ function Intermediate() {
         </FormControl>
 
         <FormControl  display='flex' alignItems='center' py="2">
-            <FormLabel>Do you recycle items such as metal, plastic, glass, or paper?</FormLabel>
+            <FormLabel w="96">Do you recycle items such as metal, plastic, glass, or paper?</FormLabel>
             <RadioGroup onChange={setRecycle} value={recycle}>
             <Stack direction='row'>
                 <Radio value='1'>Yes</Radio>
@@ -89,7 +88,7 @@ function Intermediate() {
         </FormControl>
 
         <FormControl display='flex' alignItems='center'>
-            <FormLabel>My diet is mostly:</FormLabel>
+            <FormLabel w="96">My diet is mostly:</FormLabel>
                 <Select>
                     <option value="1">Meat Lover</option>
                     <option value="2">Average omnivore (US Average)</option>
@@ -100,7 +99,8 @@ function Intermediate() {
         </FormControl>
 
         <FormControl  display='flex' alignItems='center' py="2">
-            <FormLabel>Do you make a conscious effort to save energy? Check all that apply.</FormLabel>
+            <FormLabel w="96">Do you make a conscious effort to save energy? Check all that apply.</FormLabel>
+            <Box>
             <CheckboxGroup defaultValue={[]}>
             <VStack spacing={[1, 5]} direction={['column', 'row']} align="left">
                 <Checkbox value='naruto'>Programmable Thermostat</Checkbox>
@@ -109,6 +109,8 @@ function Intermediate() {
                 <Checkbox value='laundry'>I line dry my laundry</Checkbox>
             </VStack>
         </CheckboxGroup>
+
+            </Box>
         </FormControl>
 
     </TabPanel>

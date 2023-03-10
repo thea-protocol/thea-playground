@@ -8,7 +8,7 @@
   
   function Footprint({footprint}) {
     return (
-        <Center py={2}>
+        <Box py={4}>
       <Box
         maxW={'320px'}
         w={'full'}
@@ -34,7 +34,7 @@
 
 
       </Box>
-        </Center>        
+        </Box>        
     );
   }
   

@@ -1,0 +1,82 @@
+:root {
+  /* RGB */
+  --color1: rgba(42, 45, 52, 1);
+  --color2: rgba(0, 157, 220, 1);
+  --color3: rgba(242, 100, 48, 1);
+  --color4: rgba(103, 97, 168, 1);
+  --color5: rgba(0, 155, 114, 1);
+}
+
+.donut-view {
+  display: flex;
+  justify-content: space-between;
+}
+
+.donut-controls {
+  flex: 0 0 25%;
+  padding: 2rem;
+}
+
+.donut-chart-container {
+  flex: 1 1 75%;
+  padding: 2rem;
+}
+
+.App {
+  font-family: sans-serif;
+}
+
+.donut-chart-segment:nth-child(5n + 1) {
+  fill: var(--color1);
+}
+.donut-chart-segment:nth-child(5n + 2) {
+  fill: var(--color2);
+}
+.donut-chart-segment:nth-child(5n + 3) {
+  fill: var(--color3);
+}
+.donut-chart-segment:nth-child(5n + 4) {
+  fill: var(--color4);
+}
+.donut-chart-segment:nth-child(5n + 5) {
+  fill: var(--color5);
+}
+
+.donut-chart-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.donut-chart-legend li {
+  margin-bottom: 0.5em;
+}
+
+.donut-chart-legend li span {
+  margin-right: 0.5em;
+}
+
+.donut-chart-legend li::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+.donut-chart-legend li:nth-child(5n + 1)::before {
+  background: var(--color1);
+}
+.donut-chart-legend li:nth-child(5n + 2)::before {
+  background: var(--color2);
+}
+.donut-chart-legend li:nth-child(5n + 3)::before {
+  background: var(--color3);
+}
+.donut-chart-legend li:nth-child(5n + 4)::before {
+  background: var(--color4);
+}
+.donut-chart-legend li:nth-child(5n + 5)::before {
+  background: var(--color5);
+}

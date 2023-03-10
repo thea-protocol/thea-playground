@@ -13,7 +13,7 @@ function Calculators() {
   return (<>
     <Footprint footprint={footprint}/>
     <Tabs variant='solid-rounded' colorScheme='blue'>
-        <TabList>
+        <TabList overflowX="auto">
             <Tab>Simple1</Tab>
             <Tab>Simple2</Tab>
             <Tab>Simple3</Tab>

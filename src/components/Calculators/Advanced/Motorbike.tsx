@@ -19,8 +19,8 @@ import {
     Switch,
     FormControl,
     FormLabel,
-    CloseButton
   } from '@chakra-ui/react'
+  import { AdvancedCalculator } from './advanced'
 
 function Motorbike() {
     const [type, setType] = useState("1")
@@ -29,28 +29,7 @@ function Motorbike() {
     const [footprint, setFootprint] = useState(0)
     const [rows, setRows] = useState([])
 
-    const calculateMotorbike = () => {
-        const bikeTypes = {
-            //g/km
-            "1": 83.06, // "small motorbike/moped/scooter up to 125cc"
-            "2": 100.9, // "medium motorbike over 125cc and up to 500cc"
-            "3": 132.45 // "large motorbike over 500cc"
-        }
-
-        const emmissionFactors = {
-            "g/km":1e-6,
-            "L/100km":21.6185e-6,
-            "mpg(UK)":61.0701e-4,
-            "mpg(US)":50.8510e-4
-        }
-
-        const milage = isMiles ? amount*1.609344 : amount
-        const efficiency = bikeTypes[type]
-        const unit = "g/km"
-
-        const emissions = milage*emmissionFactors[unit]*efficiency
-        setFootprint(emissions)
-    }
+    const calculator = new AdvancedCalculator()
 
     const addRow = () => {
         let uuid = self.crypto.randomUUID();
@@ -71,16 +50,16 @@ function Motorbike() {
         setRows(newRows)
     }
 
-
     useEffect(()=> {
-        calculateMotorbike()
+        const newFootprint =  calculator.calculateMotorbike(type, amount, isMiles)
+        setFootprint(newFootprint)
     }, [amount, type, isMiles])
 
   return (
     <>
     <TableContainer mt="10">
     <Table variant='simple'  size='xs'>
-        <Thead>
+        <Thead fontSize={'xs'}>
         <Tr>
             <Th>Type</Th>
             <Th>Amount</Th>
@@ -131,7 +110,7 @@ function Motorbike() {
             <Td isNumeric>{footprint.toFixed(2)}</Td>
 
             <Td isNumeric>
-                <Button size="xs" onClick={addRow}>Add</Button>
+                <Button size="xs" onClick={addRow}>New</Button>
             </Td>
         </Tr>
         </Tbody>

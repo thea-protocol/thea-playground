@@ -17,6 +17,7 @@
     "@stripe/react-stripe-js": "^1.16.5",
     "@stripe/stripe-js": "^1.48.0",
     "@thea-protocol/sdk": "^0.1.0",
+    "chakra-ui-simple-autocomplete": "^2.3.0",
     "chart.js": "^4.2.1",
     "ethers": "5.7.2",
     "framer-motion": "^10.1.0",

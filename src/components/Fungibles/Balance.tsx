@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Card, CardHeader, Heading, CardBody, CardFooter, Button } from '@chakra-ui/react'
 import { Text, HStack, VStack, StackDivider, Box } from '@chakra-ui/react'
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
+import { formatUnits } from "ethers/lib/utils.js";
 
 function Balance() {
   const { theaSDK, account } = useContext(TheaSDKContext);  
@@ -29,7 +30,7 @@ function Balance() {
             <Box h='20px' key={key}>
                 <HStack>
                 <Text>{key}</Text>
-                <Text>{balances['fungible'][key]}</Text>
+                <Text>{ formatUnits(balances['fungible'][key], 4) }</Text>
                 </HStack>
             </Box>
         )}

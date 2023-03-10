@@ -6,11 +6,13 @@ import Fungibles from './components/Fungibles';
 import NFT from './components/NFT';
 import Calculators from './components/Calculators';
 import CarbonInfo from './components/CarbonInfo';
+import Marketplace from './components/Marketplace';
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Home from './components/Home';
 
 function App() {
   
@@ -21,7 +23,7 @@ function App() {
       children: [
         {
           path: "",
-          element: <h1>Test</h1>
+          element: <Home />
         },
         {
           path: "calculators",
@@ -38,6 +40,10 @@ function App() {
         {
           path: "/info",
           element: <CarbonInfo />,
+        },
+        {
+          path: "/marketplace",
+          element: <Marketplace />,
         },
   
       ]

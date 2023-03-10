@@ -16,13 +16,11 @@ import {
 } from '@chakra-ui/react';
 import { NavLink as RouterLink, Outlet } from "react-router-dom";
 import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
   FiMenu,
 } from 'react-icons/fi';
+import { FaStore, FaCalculator, FaCubes, FaCube, FaInfoCircle, FaHome } from "react-icons/fa";
+
+
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import Connect from './Connect';
@@ -35,11 +33,12 @@ interface LinkItemProps {
   href: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome, href: '/' },
-  { name: 'Calculators', icon: FiTrendingUp, href: '/calculators' },
-  { name: 'Fungible', icon: FiCompass, href: '/fungible' },
-  { name: 'NFT', icon: FiStar, href: '/nft' },
-  { name: 'Carbon Info', icon: FiSettings, href: '/info' },
+  { name: 'Home', icon: FaHome, href: '/' },
+  { name: 'Calculators', icon: FaCalculator, href: '/calculators' },
+  { name: 'Fungible', icon: FaCubes, href: '/fungible' },
+  { name: 'NFT', icon: FaCube, href: '/nft' },
+  { name: 'Carbon Info', icon: FaInfoCircle, href: '/info' },
+  { name: 'Marketplace', icon: FaStore, href: '/marketplace' },
 ];
 
 export default function SidebarWithHeader() {
@@ -91,12 +90,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          TheaProtocol
+          Thea
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} href={link.href}>
+        <NavItem key={link.name} icon={link.icon} href={link.href} onClose={onClose}>
           {link.name}
         </NavItem>
       ))}
@@ -109,10 +108,11 @@ interface NavItemProps extends FlexProps {
   icon: IconType;
   href: string;
   children: ReactText;
+  onClose: () => void;
 }
-const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, onClose, href, children, ...rest }: NavItemProps) => {
   return (
-    <Link as={RouterLink} to={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link as={RouterLink} to={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }} onClick={onClose}>
       <Flex
         align="center"
         px="4"
@@ -170,7 +170,7 @@ const MobileNav = ({ connect, onOpen, ...rest }: MobileProps) => {
         fontSize="2xl"
         fontFamily="monospace"
         fontWeight="bold">
-        TheaProtocol
+        Thea
       </Text>
       <Connect />
 
