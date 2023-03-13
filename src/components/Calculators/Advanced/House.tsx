@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { AdvancedCalculator } from './advanced'
 
-function House() {
+function House({data, setData}) {
   const [footprint, setFootprint] = useState(0)  
   const [electricity, setElectricity] = useState(100)
   const [factor, setFactor] = useState(0.5703)
@@ -26,6 +26,8 @@ function House() {
   const [pellets, setPellets] = useState(0)
 
   const calculator = new AdvancedCalculator()
+
+  // useEffect(() => { setData({...data, house: }) }, [country])
 
   useEffect(()=> {
     const consumption = {

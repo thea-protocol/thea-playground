@@ -20,7 +20,7 @@ export default function Advanced({setFootprint}) {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
-  const [data, setData] = useState({})
+  const [data, setData] = useState({country: "Portugal"})
   const [values, setValues] = useState([
     {
       label: "Household",
@@ -61,10 +61,10 @@ export default function Advanced({setFootprint}) {
         m="10px auto"
         as="form">
         <Heading fontSize={'2xl'} pb="6">Thea Carbon Footprint Calculator</Heading>
-        <Flex>
           <Box>
             {JSON.stringify(data, 2)}
           </Box>
+        <Flex>
         <Tabs size='sm' variant='line'>
         <TabList overflowX="auto" 
         css={css({
@@ -88,7 +88,7 @@ export default function Advanced({setFootprint}) {
                 <Welcome data={data} setData={setData}/>
             </TabPanel>
             <TabPanel>
-                <House />
+                <House data={data} setData={setData}/>
             </TabPanel>
             <TabPanel>
                 <Flights />

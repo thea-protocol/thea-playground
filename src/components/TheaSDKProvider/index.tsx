@@ -10,6 +10,7 @@ import {
 import { WalletInfo, Magic } from "magic-sdk";
 import React from 'react'
 
+
 type State = {
   theaSDK?: TheaSDK;
   provider?: Web3Provider;
@@ -32,7 +33,7 @@ function TheaSDKProvider({ children }: Props) {
     () =>
       new Magic("pk_live_326101EA888E5CC4", {
         network: {
-          rpcUrl: "https://matic-mumbai.chainstacklabs.com",
+          rpcUrl: "https://rpc-mumbai.maticvigil.com/", //"https://matic-mumbai.chainstacklabs.com",
           chainId: 80001,
         },
       }),

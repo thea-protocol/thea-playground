@@ -11,10 +11,7 @@ function Welcome({data, setData}) {
     setCountries(calculator.countries)
   }, [])
 
-  useEffect(() => {
-    setData({...data, country})
-
-  }, [country])
+  useEffect(() => { setData({...data, country}) }, [country])
 
   return (
     <Box>

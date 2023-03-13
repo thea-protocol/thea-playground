@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 import { Heading, SimpleGrid, Box, Button } from '@chakra-ui/react'
 import ProjectCard from './ProjectCard'
+import TokenPrice from './TokenPrice';
 
 
 function Marketplace() {
@@ -22,6 +23,7 @@ function Marketplace() {
       <Button onClick={getTokenList}>Refresh Projects</Button>
     </Heading>
     <SimpleGrid columns={[1, 2, 4]} spacing='40px'>
+      <TokenPrice />
         {
             Object.keys(projects).map(project =>
                     <ProjectCard project={projects[project]}/>
