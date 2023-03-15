@@ -17,7 +17,7 @@ function Calculators() {
             <Tab>Simple1</Tab>
             <Tab>Simple2</Tab>
             <Tab>Simple3</Tab>
-            <Tab>Intermediate</Tab>
+            {/* <Tab>Intermediate</Tab> */}
             <Tab>Villages</Tab>
             <Tab>Advanced</Tab>
         </TabList>
@@ -32,9 +32,9 @@ function Calculators() {
             <TabPanel>
                 <Simple3 setFootprint={setFootprint}/>
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
                 <Intermediate />
-            </TabPanel>
+            </TabPanel> */}
             <TabPanel>
                 <Villages />
             </TabPanel>

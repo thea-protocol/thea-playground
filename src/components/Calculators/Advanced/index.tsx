@@ -23,7 +23,7 @@ export default function Advanced({setFootprint}) {
   const [progress, setProgress] = useState(33.33);
   const [data, setData] = useState({
     country: "Portugal",
-    home: 0,
+    house: 0,
     flights: 0,
     car: 0,
     motorbike: 0,
