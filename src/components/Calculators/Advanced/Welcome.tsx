@@ -3,7 +3,7 @@ import { Box, FormControl, FormLabel, Select } from '@chakra-ui/react'
 import { AdvancedCalculator } from './advanced'
 
 function Welcome({data, setData}) {
-  const [country, setCountry] = useState()
+  const [country, setCountry] = useState("Portugal")
   const [countries, setCountries] = useState([])
   const calculator = new AdvancedCalculator()
 
@@ -11,7 +11,7 @@ function Welcome({data, setData}) {
     setCountries(calculator.countries)
   }, [])
 
-  useEffect(() => { setData({...data, country}) }, [country])
+  useEffect(() => { setData({...data, country: country}) }, [country])
 
   return (
     <Box>

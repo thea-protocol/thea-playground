@@ -6,7 +6,7 @@ export const signTypedDataV4 = async (
 ) => {
   const magic = new Magic("pk_live_326101EA888E5CC4", {
     network: {
-      rpcUrl: "https://matic-mumbai.chainstacklabs.com",
+      rpcUrl: "https://rpc-mumbai.maticvigil.com/", //"https://matic-mumbai.chainstacklabs.com",
       chainId: 80001,
     },
   });

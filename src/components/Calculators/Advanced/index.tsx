@@ -14,13 +14,22 @@ import Flights from './Flights';
 import Motorbike from './Motorbike';
 import Bus from './Bus'
 import Donut from './Donut/Donut'
+import Secondary from './Secondary';
 
 
 export default function Advanced({setFootprint}) {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
-  const [data, setData] = useState({country: "Portugal"})
+  const [data, setData] = useState({
+    country: "Portugal",
+    home: 0,
+    flights: 0,
+    car: 0,
+    motorbike: 0,
+    bus: 0,
+    secondary: 0
+   })
   const [values, setValues] = useState([
     {
       label: "Household",
@@ -91,24 +100,27 @@ export default function Advanced({setFootprint}) {
                 <House data={data} setData={setData}/>
             </TabPanel>
             <TabPanel>
-                <Flights />
+                <Flights data={data} setData={setData}/>
             </TabPanel>
             <TabPanel>
                 Car
             </TabPanel>
             <TabPanel>
-                <Motorbike />
+                <Motorbike data={data} setData={setData}/>
             </TabPanel>
             <TabPanel>
-              <Bus />
+              <Bus data={data} setData={setData}/>
+            </TabPanel>
+            <TabPanel>
+              <Secondary  data={data} setData={setData}/>
             </TabPanel>
         </TabPanels>
         </Tabs>
-        <Box mx="10" w="96">
+        {/* <Box mx="10" w="96">
 
         <Donut series={values} />
 
-        </Box>
+        </Box> */}
 
         </Flex>
 

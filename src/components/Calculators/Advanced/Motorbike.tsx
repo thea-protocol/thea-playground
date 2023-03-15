@@ -22,7 +22,7 @@ import {
   } from '@chakra-ui/react'
   import { AdvancedCalculator } from './advanced'
 
-function Motorbike() {
+function Motorbike({data, setData}) {
     const [type, setType] = useState("1")
     const [amount, setAmount] = useState(50000)
     const [isMiles, setIsMiles] = useState(false)
@@ -30,6 +30,9 @@ function Motorbike() {
     const [rows, setRows] = useState([])
 
     const calculator = new AdvancedCalculator()
+
+    useEffect(() => { setData({...data, motorbike: footprint }) }, [footprint])
+
 
     const addRow = () => {
         let uuid = self.crypto.randomUUID();

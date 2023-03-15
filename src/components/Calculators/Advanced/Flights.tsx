@@ -30,17 +30,19 @@ const classEmissionFactors = {
   "Average (unknown class)":0.0010549178568651433
 }
 
-function Flights() {
+function Flights({data, setData}) {
   const [footprint, setFootprint] = useState(0)  
   const [isReturn, setIsReturn] = useState(true)
   const [from, setFrom] = useState("LIS")
-  const [to, setTo] = useState("RAI")
+  const [to, setTo] = useState("LIS")
   const [travelClass, setTravelClass] = useState("Economy class")
   const [trips, setTrips] = useState(1)
   const [includeRadiativeForcing, setIncludeRadiativeForcing] = useState(false)
   const [rows, setRows] = useState([])
 
   const calculator = new AdvancedCalculator()
+
+    useEffect(() => { setData({...data, flights: footprint }) }, [footprint])
 
 
   const addRow = () => {

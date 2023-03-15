@@ -27,7 +27,7 @@ function House({data, setData}) {
 
   const calculator = new AdvancedCalculator()
 
-  // useEffect(() => { setData({...data, house: }) }, [country])
+  useEffect(() => { setData({...data, house: footprint }) }, [footprint])
 
   useEffect(()=> {
     const consumption = {
