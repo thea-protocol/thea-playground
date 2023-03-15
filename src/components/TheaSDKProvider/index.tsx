@@ -2,6 +2,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import { TheaNetwork, TheaSDK, UserBalance } from "@thea-protocol/sdk";
 import {
   createContext,
+  useContext,
   useCallback,
   useEffect,
   useMemo,
@@ -9,10 +10,6 @@ import {
 } from "react";
 import { WalletInfo, Magic } from "magic-sdk";
 import React from 'react'
-import { loginService, requestLoginService } from "../../services/authService";
-import { signTypedDataV4 } from "../../utils/signTypedData";
-
-
 
 type State = {
   theaSDK?: TheaSDK;
@@ -32,6 +29,7 @@ type Props = {
 export const TheaSDKContext = createContext<State>({});
 
 function TheaSDKProvider({ children }: Props) {
+  const data = useContext(TheaSDKContext);
   const magic = useMemo(
     () =>
       new Magic("pk_live_326101EA888E5CC4", {
@@ -53,38 +51,21 @@ function TheaSDKProvider({ children }: Props) {
       const accounts = await magic.wallet.connectWithUI();
       const account = accounts[0] as `0x${string}`;
       const walletInfo = await magic.wallet.getInfo();
-      const challenge = await requestLoginService(account);
-      const types = {
-        EIP712Domain: [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-          { name: "chainId", type: "uint256" },
-        ],
-        AuthMessage: [{ name: "content", type: "string" }],
-      };
-      const domain = {
-        name: "Thea",
-        version: "0.1",
-        chainId: 80001,
-      };
-      const message = {
-        content: challenge,
-      };
-      const signature = await signTypedDataV4(account, {
-        domain,
-        types,
-        primaryType: "AuthMessage",
-        message,
+      const theaSDK = await TheaSDK.init({
+        network: TheaNetwork.MUMBAI,
+        web3Provider: provider,
       });
-      const formattedSig = `${signature.slice(-2)}.${signature.slice(
-        2,
-        66
-      )}.${signature.slice(66, -2)}`.toUpperCase();
-      await loginService({ challenge, signature: formattedSig });
+      await theaSDK.auth.login();
+      console.log(await theaSDK.carbonInfo.getUsersProfile());
+      console.log(await theaSDK.offset.getNextOffsetEventDate());
+
+
+
       setState((prevState) => ({
         ...prevState,
         account,
         connector: walletInfo,
+        theaSDK,
       }));
       return accounts;
     } catch (error) {
@@ -119,7 +100,6 @@ function TheaSDKProvider({ children }: Props) {
   const loadSDK = useCallback(async () => {
     const theaSDK = await TheaSDK.init({
       network: TheaNetwork.MUMBAI,
-      web3Provider: state.account ? provider : undefined,
       provider,
     });
 
@@ -129,7 +109,7 @@ function TheaSDKProvider({ children }: Props) {
       ...prevState,
       theaSDK,
     }));
-  }, [provider, state.account]);
+  }, [provider]);
 
   const loadBalance = useCallback(async () => {
     if (!state.theaSDK || !state.account) return;
