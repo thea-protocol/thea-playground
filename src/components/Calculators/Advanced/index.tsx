@@ -7,7 +7,6 @@ import {
 } from '@chakra-ui/react';
 
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/react';
 import Welcome from './Welcome'
 import House from './House';
 import Flights from './Flights';
@@ -15,12 +14,10 @@ import Motorbike from './Motorbike';
 import Bus from './Bus'
 import Donut from './Donut/Donut'
 import Secondary from './Secondary';
+import Summary from './Summary';
 
 
 export default function Advanced({setFootprint}) {
-  const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
   const [data, setData] = useState({
     country: "Portugal",
     house: 0,
@@ -65,14 +62,10 @@ export default function Advanced({setFootprint}) {
         borderWidth="1px"
         rounded="lg"
         shadow="1px 1px 3px rgba(0,0,0,0.3)"
-        maxWidth={900}
+        maxWidth={1000}
         p={6}
-        m="10px auto"
         as="form">
         <Heading fontSize={'2xl'} pb="6">Thea Carbon Footprint Calculator</Heading>
-          <Box>
-            {JSON.stringify(data, 2)}
-          </Box>
         <Flex>
         <Tabs size='sm' variant='line'>
         <TabList overflowX="auto" 
@@ -116,11 +109,7 @@ export default function Advanced({setFootprint}) {
             </TabPanel>
         </TabPanels>
         </Tabs>
-        {/* <Box mx="10" w="96">
-
-        <Donut series={values} />
-
-        </Box> */}
+          <Summary data={data} />
 
         </Flex>
 

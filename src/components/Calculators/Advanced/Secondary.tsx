@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
+  Box,
   Text, 
   Flex,
   Table,
@@ -82,14 +83,17 @@ function Secondary({data, setData}) {
     <Text fontSize={'sm'}>Enter mileage for each type of public transport, and press the Calculate button</Text>
 
     <Text>Footprint: {footprint}</Text>
+    <Box w="96">
 
-    <div>{JSON.stringify(formData, 2)}</div>
+    {JSON.stringify(formData, 2)}
+    </Box>
+
 
 
     {
         Object.keys(formData).map(key =>
-            <FormControl key={key} display='flex' alignItems='center' mt="10">
-            <FormLabel mb='0' fontSize={'xs'}>
+            <FormControl key={key} display='flex' alignItems='center' py="1">
+            <FormLabel w="20" mb='0' fontSize={'xs'}>
                 {key}
             </FormLabel>
             <NumberInput size='xs' w={20} min={1}  value={formData[key]} onChange={(value) => handleChange({ target: { name: key, value }})}>
@@ -104,10 +108,6 @@ function Secondary({data, setData}) {
             )
     
     }
-
-
-
-
     <hr></hr>
 
     <FormControl display='flex' alignItems='center' mt="10">

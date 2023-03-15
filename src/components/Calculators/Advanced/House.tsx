@@ -58,7 +58,6 @@ function House({data, setData}) {
     <Text fontSize={'sm'}>Enter your consumption of each type of energy, and press the Calculate button</Text>
     <Text fontSize={'sm'}>Your individual footprint is calculated by dividing the amount of energy by the number of people in your house.</Text>
 
-    <Text>Footprint: {footprint}</Text>
 
     <Table  variant='simple'  size='xs' my='8'>
       <Tbody>

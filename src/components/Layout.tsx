@@ -18,7 +18,7 @@ import { NavLink as RouterLink, Outlet } from "react-router-dom";
 import {
   FiMenu,
 } from 'react-icons/fi';
-import { FaStore, FaCalculator, FaCubes, FaCube, FaInfoCircle, FaHome, FaStoreAlt, FaUserAlt } from "react-icons/fa";
+import { FaStore, FaCalculator, FaCubes, FaCube, FaInfoCircle, FaHome, FaStoreAlt, FaUserAlt, FaDesktop } from "react-icons/fa";
 
 
 import { IconType } from 'react-icons';
@@ -41,6 +41,9 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Carbon Info', icon: FaInfoCircle, href: '/info' },
   { name: 'Trading', icon: FaStoreAlt, href: '/trading' },
   { name: 'Marketplace', icon: FaStore, href: '/marketplace' },
+  { name: 'Buy Now', icon: FaDesktop, href: '/buynow' },
+
+  
 ];
 
 export default function SidebarWithHeader() {

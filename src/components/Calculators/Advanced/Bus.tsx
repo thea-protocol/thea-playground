@@ -61,9 +61,6 @@ function Bus({data, setData}) {
     <>
     <Text fontSize={'sm'}>Enter mileage for each type of public transport, and press the Calculate button</Text>
 
-    <Text>Footprint: {footprint}</Text>
-
-
     <FormControl display='flex' alignItems='center' mt="10">
         <FormLabel mb='0' fontSize={'xs'}>
             Kms

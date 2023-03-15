@@ -9,6 +9,7 @@ import CarbonInfo from './components/CarbonInfo';
 import Marketplace from './components/Marketplace';
 import Trading from './components/Trading';
 import Auth from './components/Auth';
+import BuyNow from './components/Pages/BuyNow';
 
 import {
   createBrowserRouter,
@@ -54,6 +55,10 @@ function App() {
         {
           path: "/trading",
           element: <Trading />,
+        },
+        {
+          path: "/buynow",
+          element: <BuyNow />,
         },
   
       ]
