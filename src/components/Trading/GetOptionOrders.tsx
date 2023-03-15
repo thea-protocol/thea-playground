@@ -27,7 +27,7 @@ function GetOptionOrders() {
   return (
     <Card>
     <CardHeader>
-      <Heading size='md'> Option Contracts</Heading>
+      <Heading size='md'> Get User Positions</Heading>
     </CardHeader>
     <CardBody>
     <TableContainer>

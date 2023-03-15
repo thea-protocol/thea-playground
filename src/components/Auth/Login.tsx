@@ -3,7 +3,7 @@ import { Card, CardHeader, Heading, CardBody, CardFooter, Button } from '@chakra
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
 function Login() {
-  const { theaSDK } = useContext(TheaSDKContext);  
+  const { theaSDK, account } = useContext(TheaSDKContext);  
     const [output, setOutput] = useState({})
 
     const refresh = async () => {
@@ -21,7 +21,7 @@ function Login() {
         { JSON.stringify(output, 2) }
     </CardBody>
     <CardFooter>
-        <Button onClick={refresh}>Get</Button>
+        <Button onClick={refresh}>Login</Button>
     </CardFooter>
   </Card>
   )

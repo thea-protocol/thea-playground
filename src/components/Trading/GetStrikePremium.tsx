@@ -35,7 +35,7 @@ function GetStrikePremium() {
         <Th>Type</Th>
         <Th>K</Th>
         <Th isNumeric>Prem.</Th>
-        <Th isNumeric></Th>
+        <Th isNumeric>Expiry</Th>
       </Tr>
     </Thead>
     <Tbody>
@@ -44,7 +44,7 @@ function GetStrikePremium() {
             <Td>{ contract.optionType}</Td>
             <Td>{ contract.strike}</Td>
             <Td isNumeric>{ contract.premiumPrice.toFixed(4)  }</Td>
-            <Td isNumeric>{ contract.enabled ? "On" : "Off" }</Td>
+            <Td isNumeric>{ contract.expiry }</Td>
         </Tr>
             )}
     </Tbody>

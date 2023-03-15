@@ -21,7 +21,7 @@ function Logout() {
         { JSON.stringify(output, 2) }
     </CardBody>
     <CardFooter>
-        <Button onClick={refresh}>Get</Button>
+        <Button onClick={refresh}>Logout</Button>
     </CardFooter>
   </Card>
   )
