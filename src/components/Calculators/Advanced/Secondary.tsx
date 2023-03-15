@@ -49,7 +49,6 @@ function Secondary({data, setData}) {
 
   useEffect(() => { setData({...data, bus: footprint }) }, [footprint])
 
-
   useEffect(()=> {
     const consumption = {
       "Bus": bus,
@@ -78,8 +77,6 @@ function Secondary({data, setData}) {
   };
   
   
-
-
   return (
     <>
     <Text fontSize={'sm'}>Enter mileage for each type of public transport, and press the Calculate button</Text>

@@ -8,8 +8,7 @@ function UserProfile() {
     const toast = useToast()
 
     const getUsersProfile = async () => {
-        console.log(account)
-        console.log(theaSDK?.carbonInfo)
+        setOutput({})  
         try {
             const info = await theaSDK.carbonInfo.getUsersProfile()
             setOutput(info)  

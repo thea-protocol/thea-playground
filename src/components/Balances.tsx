@@ -35,7 +35,7 @@ function StatsCard(props: StatsCardProps) {
         <StatLabel fontWeight={'medium'} fontSize='xs' isTruncated>
             {title}
         </StatLabel>
-        <StatNumber fontSize={'xl'} fontWeight={'medium'}>
+        <StatNumber fontSize={'xs'} fontWeight={'medium'}>
             {stat}
         </StatNumber>
         </Stat>

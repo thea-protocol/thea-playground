@@ -18,7 +18,7 @@ import { NavLink as RouterLink, Outlet } from "react-router-dom";
 import {
   FiMenu,
 } from 'react-icons/fi';
-import { FaStore, FaCalculator, FaCubes, FaCube, FaInfoCircle, FaHome } from "react-icons/fa";
+import { FaStore, FaCalculator, FaCubes, FaCube, FaInfoCircle, FaHome, FaStoreAlt, FaUserAlt } from "react-icons/fa";
 
 
 import { IconType } from 'react-icons';
@@ -34,10 +34,12 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Home', icon: FaHome, href: '/' },
+  { name: 'Authentication', icon: FaUserAlt, href: '/auth' },
   { name: 'Calculators', icon: FaCalculator, href: '/calculators' },
   { name: 'Fungible', icon: FaCubes, href: '/fungible' },
   { name: 'NFT', icon: FaCube, href: '/nft' },
   { name: 'Carbon Info', icon: FaInfoCircle, href: '/info' },
+  { name: 'Trading', icon: FaStoreAlt, href: '/trading' },
   { name: 'Marketplace', icon: FaStore, href: '/marketplace' },
 ];
 
@@ -128,7 +130,7 @@ const NavItem = ({ icon, onClose, href, children, ...rest }: NavItemProps) => {
         {...rest}>
         {icon && (
           <Icon
-            mr="4"
+            mr="10"
             fontSize="16"
             _groupHover={{
               color: 'white',

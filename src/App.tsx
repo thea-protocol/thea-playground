@@ -7,6 +7,8 @@ import NFT from './components/NFT';
 import Calculators from './components/Calculators';
 import CarbonInfo from './components/CarbonInfo';
 import Marketplace from './components/Marketplace';
+import Trading from './components/Trading';
+import Auth from './components/Auth';
 
 import {
   createBrowserRouter,
@@ -24,6 +26,10 @@ function App() {
         {
           path: "",
           element: <Home />
+        },
+        {
+          path: "auth",
+          element: <Auth/>,
         },
         {
           path: "calculators",
@@ -44,6 +50,10 @@ function App() {
         {
           path: "/marketplace",
           element: <Marketplace />,
+        },
+        {
+          path: "/trading",
+          element: <Trading />,
         },
   
       ]
