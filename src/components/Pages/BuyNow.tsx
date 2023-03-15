@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Spacer, Stack, Button, StackDivider, Heading, Flex, Box, Text, Image,  NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, GridItem } from '@chakra-ui/react'
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 import NBT from '../../assets/nbt.svg'
+import USDC from '../../assets/usdc.svg'
 
 const RowItem = ({label, scenario, valUSDC, valNBT}) => {
   return (
@@ -17,11 +18,17 @@ const RowItem = ({label, scenario, valUSDC, valNBT}) => {
             </Flex>
             <Flex>
               <Flex direction='column' alignItems={'center'} w="50%" h="24" borderRight={'1px'} borderRightColor='gray.200'>
-                <Text py="2" fontSize={'sm'}>USDC</Text>
+                <Flex>
+                  <Image src={USDC} />
+                  <Text px="2" py="2" fontSize={'sm'}>USDC</Text>
+                </Flex>
                 <Text fontSize={'3xl'}>{valUSDC}</Text>
               </Flex>
               <Flex direction='column' alignItems={'center'} w="50%" h="24" borderRight={'1px'} borderRightColor='gray.200'>
-                <Text py="2" fontSize={'sm'}>NBT</Text>
+              <Flex>
+                  <Image src={NBT} />
+                  <Text px="2" py="2" fontSize={'sm'}>NBT</Text>
+                </Flex>
                 <Text fontSize={'3xl'}>{valNBT}</Text>
               </Flex>
 
@@ -40,6 +47,11 @@ function BuyNow() {
     const [strike, setStrike] = useState(0)
     const [premium, setPremium] = useState(0.2)
     const [discountedPrice, setDiscountedrice] = useState(0)
+
+
+    useEffect(() => {
+      updatePrices()
+    }, [])
 
     const updatePrices = async () => {
         const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
@@ -118,7 +130,7 @@ function BuyNow() {
                 {nbtPrice.toFixed(2)} 
 
               </Text>
-                <Image src={NBT} alt='Dan Abramov' />
+                <Image src={USDC} />
 
 
         </Flex>
@@ -141,7 +153,7 @@ function BuyNow() {
                 {discountedPrice.toFixed(2)} 
 
               </Text>
-                <Image src={NBT} alt='Dan Abramov' />
+              <Image src={USDC} />
 
 
         </Flex>
