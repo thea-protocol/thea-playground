@@ -31,14 +31,14 @@ const RowItem = ({label, scenario, valUSDC, valNBT}) => {
                   <Image src={USDC} />
                   <Text px="2" py="2" fontSize={'sm'}>USDC</Text>
                 </Flex>
-                <Text fontSize={'3xl'}>{valUSDC}</Text>
+                <Text fontSize={{base: 'xl', md: '3xl'}}>{valUSDC}</Text>
               </Flex>
               <Flex direction='column' alignItems={'center'} w="50%" h="24" borderRight={'1px'} borderRightColor='gray.200'>
               <Flex>
                   <Image src={NBT} />
                   <Text px="2" py="2" fontSize={'sm'}>NBT</Text>
                 </Flex>
-                <Text fontSize={'3xl'}>{valNBT}</Text>
+                <Text fontSize={{base: 'xl', md: '3xl'}}>{valNBT}</Text>
               </Flex>
 
             </Flex>
