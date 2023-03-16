@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Spacer, Stack, Button, StackDivider, Heading, Flex, Box, Text, Image,  NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, GridItem } from '@chakra-ui/react'
+import { Grid, Spacer, Stack, Button, StackDivider, Flex, Box, Text, Image,  NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 import NBT from '../../assets/nbt.svg'
 import USDC from '../../assets/usdc.svg'
@@ -47,7 +47,7 @@ const RowItem = ({label, scenario, valUSDC, valNBT}) => {
   )
 }
 
-function BuyNow() {
+function SellNow() {
     const { theaSDK } = useContext(TheaSDKContext);
 
     const [amountIn, setAmountIn] = useState(0)
@@ -71,7 +71,7 @@ function BuyNow() {
 
           const contracts = await theaSDK.options.getCurrentStrikeAndPremium();
 
-          const contract = contracts.find(item => item.optionType == 'Put')
+          const contract = contracts.find(item => item.optionType == 'Call')
           // TODO: Format date to String
           // setExpiry(contract.expiry)
 
@@ -79,7 +79,7 @@ function BuyNow() {
 
           setPremium(contract?.premiumPrice)
 
-          setDiscountedrice((priceInWEI / 1e18) - premium)
+          setDiscountedrice((priceInWEI / 1e18) + premium)
           console.log(contract)
       
 
@@ -92,9 +92,10 @@ function BuyNow() {
       p="4"
       direction={{ base: 'column', md: 'row' }}
       backgroundColor={'gray.300'} rounded='lg'
-      >
-        <Flex w={{ base: "100%", md: "50%" }} alignItems={'center'} py={{base:10, md:3}}>
-            <Box fontSize={'3xl'} fontWeight={'600'} px="4">Buy</Box>
+    >
+
+        <Flex w={{ base: "100%", md: "50%" }}  alignItems={'center'} py={{base:10, md:3}}>
+            <Box fontSize={'3xl'} fontWeight={'600'} px="4">Sell</Box>
             <Box backgroundColor={'white'} rounded='xl'>
             <NumberInput w="24" value={amountIn} min={0} onChange={setAmountIn}>
           <NumberInputField fontSize={'3xl'}/>
@@ -117,14 +118,14 @@ function BuyNow() {
               />
             }>
                 <Flex>
-                    <Text fontWeight={600} px="6">Pay</Text>
-                    <Text border={'1px'} w="14" align={'center'} rounded='md'>{ nbtPrice.toFixed(2) }</Text>
+                    <Text fontWeight={600} px="6">Rec.</Text>
+                    <Text border={'1px'} w="16" align={'center'} rounded='md'>{ nbtPrice.toFixed(2) }</Text>
                     <Text fontWeight={600} px="6">Now</Text>
                 </Flex>
                 <Flex>
-                    <Text fontWeight={600} px="6">Pay</Text>
-                    <Text border={'1px'} w="14" align={'center'}  rounded='md'>{ discountedPrice.toFixed(2) }</Text>
-                    <Text fontWeight={600} px="6">on {expiry}</Text>
+                    <Text fontWeight={600} px="6">Rec.</Text>
+                    <Text border={'1px'} w="16" align={'center'}  rounded='md'>{ discountedPrice.toFixed(2) }</Text>
+                    <Text fontWeight={600} px="6">{expiry}</Text>
                 </Flex>
             </Stack>
 
@@ -138,10 +139,9 @@ function BuyNow() {
 
     </Flex>
 
-    <Flex
-      mt="6"
-      w="100%"
-      direction={{ base: 'column', md: 'row' }}
+    <Flex mt="6"
+          w="100%"
+          direction={{ base: 'column', md: 'row' }}
     >
       <Box w={{ base: "100%", md: "50%" }}>
         <Flex px="2">
@@ -157,12 +157,22 @@ function BuyNow() {
 
         </Flex>
         <Flex direction="column" backgroundColor={'gray.200'} rounded='lg' p="4">
-
-          <RowItem label="March 15, 2023 (Now)" scenario="" valUSDC={-(nbtPrice * amountIn).toFixed(2)} valNBT={amountIn}/>
-
-          <RowItem label="March 20" scenario={`NBT(${expiry}) > ${strike}`} valUSDC={0}  valNBT={amountIn}/>
-
-          <RowItem label="March 20" scenario={`NBT(${expiry}) <= ${strike}`} valUSDC={0}  valNBT={amountIn}/>
+          <RowItem 
+            label="March 15, 2023 (Now)"
+            scenario=""
+            valUSDC={`(+${(nbtPrice * amountIn).toFixed(2)})`}
+            valNBT={`1 (-${amountIn})`}
+            />
+          <RowItem
+            label="March 20"
+            scenario={`NBT(${expiry}) > ${strike}`}
+            valUSDC={`${(nbtPrice * amountIn).toFixed(2)}`}
+            valNBT={0}/>
+          <RowItem
+            label="March 20"
+            scenario={`NBT(${expiry}) <= ${strike}`}
+            valUSDC={`${(nbtPrice * amountIn).toFixed(2)}`}
+            valNBT={0}/>
         </Flex>
         
       </Box>
@@ -181,19 +191,24 @@ function BuyNow() {
         </Flex>
         <Flex direction="column" backgroundColor={'gray.200'} rounded='lg' p="4">
 
-          <RowItem label="March 15, 2023 (Now)" scenario="" valUSDC={-(discountedPrice * amountIn).toFixed(2)} valNBT={0}/>
+          <RowItem
+            label="March 15, 2023 (Now)"
+            scenario=""
+            valUSDC={0}
+            valNBT={`1 (-${amountIn})`}
+            />
 
           <RowItem 
             label="March 20" 
             scenario={`NBT(${expiry}) > ${strike}`} 
-            valUSDC={`${(discountedPrice * amountIn).toFixed(2)} (+${(premium * amountIn).toFixed(2)})`}  
+            valUSDC={`(+${(discountedPrice * amountIn).toFixed(2)})`}  
             valNBT={0}/>
 
           <RowItem
             label="March 20"
             scenario={`NBT(${expiry}) <= ${strike}`} 
             valUSDC={`(+${(premium * amountIn).toFixed(2)})`}  
-            valNBT={amountIn}/>
+            valNBT={`(+${amountIn})`}/>
         </Flex>
         
       </Box>
@@ -213,9 +228,8 @@ function BuyNow() {
         <Td isNumeric>{ premium}</Td>
       </Tr>
       <Tr>
-        <Th>Discounted Price</Th>
-        <Td isNumeric>{ nbtPrice - premium}</Td>
-        <Td>(=NBT Price - Premium)</Td>
+        <Th>Adjusted Price</Th>
+        <Td isNumeric>{ nbtPrice + premium}</Td>
       </Tr>
       <Tr>
         <Th>Expiry</Th>
@@ -238,4 +252,4 @@ function BuyNow() {
   )
 }
 
-export default BuyNow
+export default SellNow

@@ -41,7 +41,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Carbon Info', icon: FaInfoCircle, href: '/info' },
   { name: 'Trading', icon: FaStoreAlt, href: '/trading' },
   { name: 'Marketplace', icon: FaStore, href: '/marketplace' },
-  { name: 'Buy Now', icon: FaDesktop, href: '/buynow' },
+  { name: 'Trade NBT', icon: FaDesktop, href: '/trade_nbt' },
 
   
 ];

@@ -10,6 +10,7 @@ import Marketplace from './components/Marketplace';
 import Trading from './components/Trading';
 import Auth from './components/Auth';
 import BuyNow from './components/Pages/BuyNow';
+import NaturaBasedTokens from './components/Pages/NaturaBasedTokens';
 
 import {
   createBrowserRouter,
@@ -57,8 +58,8 @@ function App() {
           element: <Trading />,
         },
         {
-          path: "/buynow",
-          element: <BuyNow />,
+          path: "/trade_nbt",
+          element: <NaturaBasedTokens />,
         },
   
       ]
