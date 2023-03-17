@@ -19,10 +19,8 @@ import {
 } from '@chakra-ui/react'
 import { AdvancedCalculator } from './advanced'
 
-
 function Car({data, setData}) {
   const [footprint, setFootprint] = useState(0)  
-
   const [carType, setCarType] = useState('Car')
   const [subType, setSubType] = useState('Diesel Car')
   const [model, setModel] = useState('Average diesel car')
@@ -30,7 +28,6 @@ function Car({data, setData}) {
   const [amount, setAmount] = useState(1)
   const [rows, setRows] = useState([])
   
-
   const calculator = new AdvancedCalculator()
   const carDatabase = calculator.carDatabase
 
@@ -55,19 +52,14 @@ function Car({data, setData}) {
     setRows(newRows)
 }
 
-
 useEffect(() => {
     setSubType(Object.keys(carDatabase[carType])[0])
-
 }, [carType])
 
 
 useEffect(() => {
     setModel(Object.keys(carDatabase[carType][subType])[0])
-
 }, [subType])
-
-
 
 
 const deleteRow = (uuid) => {
@@ -92,11 +84,8 @@ useEffect(()=> {
     isMiles,
 ])
 
-
-
   return (
     <>
-
 <TableContainer mt="10">
     <Table variant='simple'  size='xs'>
         <Thead fontSize={'xs'}>
@@ -119,7 +108,6 @@ useEffect(()=> {
                         <Td>{item.isMiles ? 'Miles' : 'Kms'}</Td>
                         <Td>{item.footprint.toFixed(2)}</Td>
                         <Td isNumeric><Button variant="ghost" size='xs' onClick={() => deleteRow(item.uuid)}>X</Button></Td>
-
                     </Tr>
                     )
             }
