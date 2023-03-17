@@ -47,7 +47,6 @@ function Flights({data, setData}) {
 
   const addRow = () => {
     let uuid = self.crypto.randomUUID();
-    const types = ["<= 125cc", "> 125cc and <= 500cc", "> 500cc"]
     const row = {
         uuid,
         isReturn,
@@ -69,6 +68,7 @@ const deleteRow = (uuid) => {
 }
 
 useEffect(()=> {
+  console.log(isReturn, from, to, travelClass, trips, includeRadiativeForcing)
   const newFootprint =  calculator.calculateFlight(isReturn, from, to, travelClass, trips, includeRadiativeForcing)
   setFootprint(newFootprint)
 }, [isReturn, from, to, travelClass, trips, includeRadiativeForcing])
@@ -127,7 +127,7 @@ useEffect(()=> {
             <Select size='xs' value={travelClass} onChange={(val) => setTravelClass(val.target.value)}>
               {
                 Object.keys(classEmissionFactors).map(key => 
-                  <option key={key} value={classEmissionFactors[key]}>{key}</option>)
+                  <option key={key} value={key}>{key}</option>)
               }
             </Select>
             </Td>
