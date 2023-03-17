@@ -42,7 +42,10 @@ function Flights({data, setData}) {
 
   const calculator = new AdvancedCalculator()
 
-    useEffect(() => { setData({...data, flights: footprint }) }, [footprint])
+    useEffect(() => { setData({
+      ...data,
+      flights: rows.map(item => item.footprint).reduce((a,b) => a + b,  0)
+    }) }, [rows])
 
 
   const addRow = () => {
@@ -77,7 +80,6 @@ useEffect(()=> {
 
   return (
     <>
-
 
 <TableContainer mt="10">
     <Table variant='simple'  size='xs'>

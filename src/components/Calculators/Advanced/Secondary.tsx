@@ -120,17 +120,6 @@ function Secondary({data, setData}) {
     }
       </Tbody>
     </Table>
-
-
-<Box w="96">
-  {JSON.stringify(consumption, 2)}
-</Box>
-
-
-
-
-
-
     </>
   )
 }

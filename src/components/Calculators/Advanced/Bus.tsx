@@ -19,13 +19,13 @@ import { AdvancedCalculator } from './advanced'
 
 function Bus({data, setData}) {
   const [footprint, setFootprint] = useState(0)  
-  const [bus, setBus] = useState(100)
-  const [coach, setCoach] = useState(100)
-  const [commuter, setCommuter] = useState(100)
-  const [train, setTrain] = useState(100)
-  const [tram, setTram] = useState(100)
-  const [subway, setSubway] = useState(100)
-  const [taxi, setTaxi] = useState(100)
+  const [bus, setBus] = useState(0)
+  const [coach, setCoach] = useState(0)
+  const [commuter, setCommuter] = useState(0)
+  const [train, setTrain] = useState(0)
+  const [tram, setTram] = useState(0)
+  const [subway, setSubway] = useState(0)
+  const [taxi, setTaxi] = useState(0)
   const [isMiles, setIsMiles] = useState(true)
 
   const calculator = new AdvancedCalculator()
@@ -78,7 +78,7 @@ function Bus({data, setData}) {
           <Td>Bus</Td>
           <Td>
             <Flex>
-            <NumberInput size='xs' w={20} min={1}  value={bus} onChange={setBus}>
+            <NumberInput size='xs' w={20} min={0}  value={bus} onChange={setBus}>
                 <NumberInputField />
                 <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -97,7 +97,7 @@ function Bus({data, setData}) {
             Coach
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={coach} onChange={setCoach}>
+            <NumberInput size='xs' w={20} min={0}  value={coach} onChange={setCoach}>
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -111,7 +111,7 @@ function Bus({data, setData}) {
             Local or Commuter Train
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={commuter} onChange={setCommuter}>
+            <NumberInput size='xs' w={20} min={0}  value={commuter} onChange={setCommuter}>
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -125,7 +125,7 @@ function Bus({data, setData}) {
             Long Distance Train
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={train} onChange={setTrain}>
+            <NumberInput size='xs' w={20} min={0}  value={train} onChange={setTrain}>
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -139,7 +139,7 @@ function Bus({data, setData}) {
           Tram
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={tram} onChange={setTram}>
+            <NumberInput size='xs' w={20} min={0}  value={tram} onChange={setTram}>
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -153,7 +153,7 @@ function Bus({data, setData}) {
           Subway
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={subway} onChange={setSubway}>
+            <NumberInput size='xs' w={20} min={0}  value={subway} onChange={setSubway}>
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -167,7 +167,7 @@ function Bus({data, setData}) {
           Taxi
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={taxi} onChange={setTaxi}>
+            <NumberInput size='xs' w={20} min={0}  value={taxi} onChange={setTaxi}>
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />

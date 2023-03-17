@@ -31,8 +31,11 @@ function Motorbike({data, setData}) {
 
     const calculator = new AdvancedCalculator()
 
-    useEffect(() => { setData({...data, motorbike: footprint }) }, [footprint])
-
+    useEffect(() => { setData({
+        ...data,
+        motorbike: rows.map(item => item.footprint).reduce((a,b) => a + b,  0)
+      }) }, [rows])
+  
 
     const addRow = () => {
         let uuid = self.crypto.randomUUID();

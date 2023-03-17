@@ -465,8 +465,6 @@ export class AdvancedCalculator {
         const durationFactor = durationFactors[duration]
         const currencyFactor = currencyFactors[currency]
 
-        console.log(duration, durationFactor, currencyFactor)
-
         const emissions = Object.keys(consumption).map(key => {
             const amount = consumption[key]
             const emissionFactor = (key == 'food') ? emissionFactors_DOLLAR[keyMap[key]][food] : emissionFactors_DOLLAR[keyMap[key]]
