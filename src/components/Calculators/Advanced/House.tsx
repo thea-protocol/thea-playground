@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import {
+  Select,
   Text, 
-  Input,
+  Flex,
   Table,
   Tbody,
   Tr,
@@ -14,42 +15,63 @@ import {
 } from '@chakra-ui/react'
 import { AdvancedCalculator } from './advanced'
 
+function InputRow({mydata, options, setFn}) {
+  return (
+  <Flex>
+    <NumberInput
+      size='xs'
+      w={20}
+      min={0} 
+      value={mydata.amount}
+      onChange={(val) => setFn(mydata.amount = val)}>
+        <NumberInputField />
+        <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+        </NumberInputStepper>
+      </NumberInput>
+      <Select size="xs" w="20">
+        { options.map(item =>
+          <option key={item} value={item}>{item}</option>
+          )}
+      </Select>
+  </Flex>
+  )  
+}
+
+
 function House({data, setData}) {
   const [footprint, setFootprint] = useState(0)  
-  const [electricity, setElectricity] = useState(100)
-  const [factor, setFactor] = useState(0.5703)
-  const [gas, setGas] = useState(0)
-  const [oil, setOil] = useState(0)
-  const [coal, setCoal] = useState(0)
-  const [lpg, setLpg] = useState(0)
-  const [propane, setPropane] = useState(0)
-  const [pellets, setPellets] = useState(0)
+
+  const [houseData, setHouseData] = useState({
+    "Electricity": { amount: 0, unit: "kWh", factor: 0.5703 },
+    "Natural Gas": { amount: 0, unit: "kWh" },
+    "Heating Oil": { amount: 0, unit: "kWh" },
+    "Coal": { amount: 0, unit: "kWh" },
+    "LPG": { amount: 0, unit: "kWh" },
+    "Propane": { amount: 0, unit: "litres" },
+    "Wooden pellets": { amount: 0, unit: "metric tons" }
+  })
+
+  const handleHouseChange = (val, label, fld) => {
+    const newData = JSON.parse(JSON.stringify(houseData))    
+    newData[label][fld] =  (fld == 'amount' || fld == 'factor') ? Number(val) : val
+    setHouseData(newData)
+  }
 
   const calculator = new AdvancedCalculator()
 
+
   useEffect(() => { setData({...data, house: footprint }) }, [footprint])
+  useEffect(() => {
+    const newFactor = calculator.houseKWhFactors[data.country]
+    handleHouseChange(newFactor, "Electricity", "factor")
+  },[data.country])
 
   useEffect(()=> {
-    const consumption = {
-      "Electricity": { amount: electricity, unit: "kWh" },
-      "Natural Gas": { amount: gas, unit: "kWh" },
-      "Heating Oil": { amount: oil, unit: "kWh" },
-      "Coal": { amount: coal, unit: "kWh" },
-      "LPG": { amount: lpg, unit: "kWh" },
-      "Propane": { amount: propane, unit: "litres" },
-      "Wooden pellets": { amount: pellets, unit: "metric tons" }
-    }
-    const newFootprint =  calculator.calculateHouseHold(consumption, factor)
+    const newFootprint =  calculator.calculateHouseHold(houseData)
     setFootprint(newFootprint)
-  }, [
-      electricity,
-      gas,
-      oil,
-      coal,
-      lpg,
-      propane,
-      pellets
-  ])
+  }, [houseData])
   
 
 
@@ -58,24 +80,29 @@ function House({data, setData}) {
     <Text fontSize={'sm'}>Enter your consumption of each type of energy, and press the Calculate button</Text>
     <Text fontSize={'sm'}>Your individual footprint is calculated by dividing the amount of energy by the number of people in your house.</Text>
 
-
     <Table  variant='simple'  size='xs' my='8'>
       <Tbody>
         <Tr>
           <Td>Electricity</Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={electricity} onChange={setElectricity}>
-                <NumberInputField />
-                <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                </NumberInputStepper>
-            </NumberInput>
+          <NumberInput size='xs' w={20} min={0}
+                value={houseData['Electricity'].amount}
+                onChange={(val) => handleHouseChange(val, 'Electricity', 'amount')}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                  </NumberInputStepper>
+              </NumberInput>
 
           </Td>
           <Td  fontSize={'xs'}>KWh at a factor of</Td>
           <Td>
-            <NumberInput size='xs' w={20} min={0} step={0.1} value={factor} onChange={setFactor}>
+          <NumberInput size='xs' w={20} min={0} step={0.1}
+                value={houseData['Electricity'].factor}
+                onChange={(val) => handleHouseChange(val, 'Electricity', 'factor')}
+                >
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -90,28 +117,58 @@ function House({data, setData}) {
             Natural Gas
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={gas} onChange={setGas}>
+            <Flex>
+              <NumberInput size='xs' w={20} min={0}
+                value={houseData['Natural Gas'].amount}
+                onChange={(val) => handleHouseChange(val, 'Natural Gas', 'amount')}
+                >
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
                   </NumberInputStepper>
               </NumberInput>
+              <Select
+                size="xs"
+                w="20"
+                value={houseData['Natural Gas'].unit}
+                onChange={(val) => handleHouseChange(val.target.value, 'Natural Gas', 'unit')}
+                >
+  
+            <option value='kWs'>kWs</option>
+            <option value='therms'>therms</option>
+          </Select>
+          </Flex>
           </Td>
-          <Td colSpan={3}>bah</Td>
         </Tr>
         <Tr>
           <Td>
             Heating Oil
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={oil} onChange={setOil}>
+          <Flex>
+              <NumberInput size='xs' w={20} min={0}
+              value={houseData['Heating Oil'].amount}
+              onChange={(val) => handleHouseChange(val, 'Heating Oil', 'amount')}
+              >
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
                   </NumberInputStepper>
               </NumberInput>
+              <Select
+                size="xs"
+                w="20"
+                value={houseData['Heating Oil'].unit}
+                onChange={(val) => handleHouseChange(val.target.value, 'Heating Oil', 'unit')}
+                >
+            <option value='kWs'>kWs</option>
+            <option value='litres'>litres</option>
+            <option value='metric tonnes'>metric tons</option>
+            <option value='US gallons'>gallons</option>
+          </Select>
+          </Flex>
           </Td>
         </Tr>
         <Tr>
@@ -119,13 +176,27 @@ function House({data, setData}) {
             Coal
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={coal} onChange={setCoal}>
+          <Flex>
+              <NumberInput size='xs' w={20} min={0}
+              value={houseData['Coal'].amount}
+              onChange={(val) => handleHouseChange(val, 'Coal', 'amount')}
+              >
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
                   </NumberInputStepper>
               </NumberInput>
+              <Select
+                size="xs"
+                w="20"
+                value={houseData['Coal'].unit}
+                onChange={(val) => handleHouseChange(val.target.value, 'Coal', 'unit')}
+                >
+            <option value='kWs'>kWs</option>
+            <option value='metric tonnes'>metric tons</option>
+          </Select>
+          </Flex>
           </Td>
         </Tr>
         <Tr>
@@ -133,13 +204,28 @@ function House({data, setData}) {
             LPG
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={lpg} onChange={setLpg}>
+          <Flex>
+              <NumberInput size='xs' w={20} min={0}
+              value={houseData['LPG'].amount}
+              onChange={(val) => handleHouseChange(val, 'LPG', 'amount')}
+              >
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
                   </NumberInputStepper>
               </NumberInput>
+              <Select
+                size="xs"
+                w="20"
+                value={houseData['LPG'].unit}
+                onChange={(val) => handleHouseChange(val.target.value, 'LPG', 'unit')}
+                >
+            <option value='kWs'>kWs</option>
+            <option value='litres'>litres</option>
+            <option value='therms'>therms</option>
+          </Select>
+          </Flex>
           </Td>
         </Tr>
         <Tr>
@@ -147,27 +233,54 @@ function House({data, setData}) {
             Propane
           </Td>
           <Td>
-            <NumberInput size='xs' w={20} min={1}  value={propane} onChange={setPropane}>
+          <Flex>
+              <NumberInput size='xs' w={20} min={0}
+              value={houseData['Propane'].amount}
+              onChange={(val) => handleHouseChange(val, 'Propane', 'amount')}
+              >
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
                   </NumberInputStepper>
               </NumberInput>
+              <Select
+                size="xs"
+                w="20"
+                value={houseData['Propane'].unit}
+                onChange={(val) => handleHouseChange(val.target.value, 'Propane', 'unit')}
+                >
+            <option value='litres'>litres</option>
+            <option value='US gallons'>US gallons</option>
+          </Select>
+          </Flex>
           </Td>
         </Tr>
         <Tr>
           <Td>
             Wooden pellets
           </Td>
-          <Td>
-            <NumberInput size='xs' w={20} min={1}  value={pellets} onChange={setPellets}>
+          <Td colSpan={3}>
+          <Flex>
+              <NumberInput size='xs' w={20} min={0}
+              value={houseData['Wooden pellets'].amount}
+              onChange={(val) => handleHouseChange(val, 'Wooden pellets', 'amount')}
+              >
                   <NumberInputField />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
                   </NumberInputStepper>
               </NumberInput>
+              <Select
+                size="xs"
+                w="20"
+                value={houseData['Wooden pellets'].unit}
+                onChange={(val) => handleHouseChange(val.target.value, 'Wooden pellets', 'unit')}
+                >
+            <option value='metric tons'>metric tons</option>
+          </Select>
+          </Flex>
           </Td>
         </Tr>
       </Tbody>
