@@ -3,6 +3,7 @@ import { Spacer, Stack, Button, StackDivider, Heading, Flex, Box, Text, Image,  
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 import NBT from '../../assets/nbt.svg'
 import USDC from '../../assets/usdc.svg'
+import { ethers} from 'ethers'
 
 import {
   Table,
@@ -48,7 +49,7 @@ const RowItem = ({label, scenario, valUSDC, valNBT}) => {
 }
 
 function BuyNow() {
-    const { theaSDK } = useContext(TheaSDKContext);
+    const { theaSDK, provider, account } = useContext(TheaSDKContext);
 
     const [amountIn, setAmountIn] = useState(0)
     const [nbtPrice, setNBTPrice] = useState(0)
@@ -56,6 +57,58 @@ function BuyNow() {
     const [strike, setStrike] = useState(0)
     const [premium, setPremium] = useState(0.2)
     const [discountedPrice, setDiscountedrice] = useState(0)
+    const [usdcBalance, setUsdcBalance] = useState(0)
+    const [contractID, setContractID] = useState('')
+
+
+
+    const getUSDCBalance = async () => {
+      const abi = [{
+        "inputs": [{ "internalType": "address", "name": "account", "type": "address"}],
+        "name": "balanceOf",
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+        "stateMutability": "view",
+        "type": "function"
+        }]
+
+      const tokenContractAddress = '0x014349F1C543038a76384cFC1A68f1881AFc6B0a';
+      console.log(provider)
+      const contract = new ethers.Contract(tokenContractAddress, abi, provider);
+      const balance = (await contract.balanceOf(account) / 1e18).toFixed(2);
+      setUsdcBalance(balance)
+    }
+
+    useEffect(() => {
+      getUSDCBalance()
+    }, [amountIn])
+
+
+    
+    const buyNow = async () => {
+      const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
+        tokenIn: 'Stable',
+        tokenOut: 'CurrentNBT',
+        amountIn: (amountIn * 1e18).toString()
+    });  
+
+      console.log(priceInWEI)
+  
+
+      // const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
+      //   tokenIn: 'Stable',
+      //   tokenOut: 'CurrentNBT',
+      //   amountIn: (amountIn * 10).toString()
+      // });
+
+    }
+
+    const buyLater = async () => {
+      const order = theaSDK.options.createOrder(contractID, amountIn);
+      console.log(order)
+
+    }
+
+  
 
 
     useEffect(() => {
@@ -72,6 +125,7 @@ function BuyNow() {
           const contracts = await theaSDK.options.getCurrentStrikeAndPremium();
 
           const contract = contracts.find(item => item.optionType == 'Put')
+          setContractID(contract?.uuid)
           // TODO: Format date to String
           // setExpiry(contract.expiry)
 
@@ -107,6 +161,8 @@ function BuyNow() {
             <Box fontSize={'3xl'} fontWeight={'600'} px="4">NBT</Box>
 
         </Flex>
+
+
         <Flex  w={{ base: "100%", md: "50%" }}>
             <Box backgroundColor={'white'} p="4" rounded="xl" w="full">
             <Stack
@@ -163,7 +219,17 @@ function BuyNow() {
           <RowItem label="March 20" scenario={`NBT(${expiry}) > ${strike}`} valUSDC={0}  valNBT={amountIn}/>
 
           <RowItem label="March 20" scenario={`NBT(${expiry}) <= ${strike}`} valUSDC={0}  valNBT={amountIn}/>
+
+          <Button mt="4" colorScheme='blue' onClick={buyNow}>Buy Now</Button>
+          <Box>
+            <Text fontSize={'sm'} color={'gray.500'}>
+            UDSC Balance: {usdcBalance}
+
+            </Text>
+            </Box>
+
         </Flex>
+
         
       </Box>
       <Box w={{ base: "100%", md: "50%" }}>
@@ -194,6 +260,15 @@ function BuyNow() {
             scenario={`NBT(${expiry}) <= ${strike}`} 
             valUSDC={`(+${(premium * amountIn).toFixed(2)})`}  
             valNBT={amountIn}/>
+
+        <Button mt="4" colorScheme='blue' onClick={buyLater}>Buy Later</Button>
+          <Box>
+            <Text fontSize={'sm'} color={'gray.500'}>
+            UDSC Balance: {usdcBalance}
+
+            </Text>
+            </Box>
+
         </Flex>
         
       </Box>

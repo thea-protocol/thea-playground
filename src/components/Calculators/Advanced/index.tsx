@@ -15,6 +15,7 @@ import Bus from './Bus'
 import Donut from './Donut/Donut'
 import Secondary from './Secondary';
 import Summary from './Summary';
+import Car from './Car';
 
 
 export default function Advanced({setFootprint}) {
@@ -53,7 +54,6 @@ export default function Advanced({setFootprint}) {
       value: 20
     }
   ])
-
 
   return (
     <>
@@ -96,7 +96,7 @@ export default function Advanced({setFootprint}) {
                 <Flights data={data} setData={setData}/>
             </TabPanel>
             <TabPanel>
-                Car
+              <Car data={data} setData={setData} />
             </TabPanel>
             <TabPanel>
                 <Motorbike data={data} setData={setData}/>

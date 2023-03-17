@@ -30,7 +30,7 @@ function QuoteTrade() {
     const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
       tokenIn,
       tokenOut,
-      amountIn: (amountIn * 1e18).toString()
+      amountIn: (amountIn * 1000).toString()
     });
 
   }

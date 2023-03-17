@@ -32,6 +32,7 @@ function CreateOrder() {
     try {
         console.log(contract, amountIn)
         const order = theaSDK.options.createOrder(contract, amountIn);
+        console.log(order)
     } catch(error) {
         toast({
             title: 'Error',

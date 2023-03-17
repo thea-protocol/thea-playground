@@ -318,6 +318,180 @@ const emmissionFactors = {
     "mpg(US)":50.8510e-4
 }
 
+/* CAR */
+
+const carDatabase = {
+    "Car": {
+        "CNG Car": {
+            "Average CNG car": {
+                "average value": "175.17"
+            },
+            "Large CNG car": {
+                "average value": "235.78"
+            },
+            "Medium CNG car": {
+                "average value": "158.03"
+            }
+        },
+        "Diesel Car": {
+            "Average diesel car": {
+                "average value": "170.82"
+            },
+            "Large diesel car above 2.0 litre": {
+                "average value": "209.53"
+            },
+            "Medium diesel car from 1.7 to 2.0 litre": {
+                "average value": "168"
+            },
+            "Small diesel car up to 1.7 litre": {
+                "average value": "139.89"
+            }
+        },
+        "LPG Car": {
+            "Average LPG car": {
+                "average value": "197.75"
+            },
+            "Large LPG car": {
+                "average value": "266.8"
+            },
+            "Medium LPG car": {
+                "average value": "178.23"
+            }
+        },
+        "Petrol Car": {
+            "Average petrol Car": {
+                "average value": "170.48"
+            },
+            "Large petrol car above 2.0 litre": {
+                "average value": "276.39"
+            },
+            "Medium petrol car from 1.4 - 2.0 litres": {
+                "average value": "184.7"
+            },
+            "Small petrol car up to 1.4 litre engine": {
+                "average value": "146.52"
+            }
+        },
+        "Petrol Hybrid Car": {
+            "Average petrol hybrid car": {
+                "average value": "120.04"
+            },
+            "Large petrol hybrid car": {
+                "average value": "154.91"
+            },
+            "Medium petrol hybrid car": {
+                "average value": "109.99"
+            },
+            "Small petrol hybrid car": {
+                "average value": "103.32"
+            }
+        },
+        "Plug-in Hybrid Car": {
+            "Average petrol Plug-in hybrid car": {
+                "average value": "68.4"
+            },
+            "Large petrol Plug-in hybrid car": {
+                "average value": "74.1"
+            },
+            "Medium petrol Plug-in hybrid car": {
+                "average value": "64.75"
+            },
+            "Small petrol Plug-in hybrid car": {
+                "average value": "22.16"
+            }
+        },
+        "Unknown Fuel": {
+            "Average car": {
+                "average value": "170.67"
+            },
+            "Large car": {
+                "average value": "227.33"
+            },
+            "Medium car": {
+                "average value": "175.88"
+            },
+            "Small car": {
+                "average value": "144.4"
+            }
+        }
+    },
+    "Van": {
+        "Average Van": {
+            "Average van up to 3.5 tonne": {
+                "average value": "230.99"
+            }
+        },
+        "CNG Van": {
+            "CNG van up to 3.5 tonne": {
+                "average value": "235.75"
+            }
+        },
+        "Diesel Van": {
+            "Diesel van (Class I), up to 1.305 tonne": {
+                "average value": "141.89"
+            },
+            "Diesel van (Class II), 1.305 to 1.74 tonne": {
+                "average value": "175.13"
+            },
+            "Diesel van (Class III), 1.74 to 3.5 tonne": {
+                "average value": "254.81"
+            },
+            "Diesel van up to 3.5 tonne": {
+                "average value": "231.56"
+            }
+        },
+        "LPG Van": {
+            "LPG van up to 3.5 tonne": {
+                "average value": "259.24"
+            }
+        },
+        "Petrol Van": {
+            "Petrol van (Class I), up to 1.305 tonne": {
+                "average value": "196.87"
+            },
+            "Petrol van (Class II), 1.305 to 1.74 tonne": {
+                "average value": "204.61"
+            },
+            "Petrol van (Class III), 1.74 to 3.5 tonne": {
+                "average value": "326.07"
+            },
+            "Petrol van up to 3.5 tonne": {
+                "average value": "213.32"
+            }
+        }
+    }
+}
+
+const carEmmissionFactors = {
+    "g/km":{
+        "petrol":1e-6,
+        "diesel":1e-6,
+        "LPG":1e-6,
+        "CNG":1e-6
+    },
+    "L/100km":{
+        "petrol":21.6185e-6,
+        "diesel":25.5784e-6,
+        "LPG":15.5709e-6,
+        "CNG":4.44360e-6
+    },
+
+    "mpg(UK)":{
+        "petrol":61.0701e-4,
+        "diesel":72.2564e-4,
+        "LPG":43.9862e-4,
+        "CNG":12.5527e-4
+    },
+    "mpg(US)":{
+        "petrol":50.8510e-4,
+        "diesel":60.1655e-4,
+        "LPG":36.6259e-4,
+        "CNG":10.4522e-4,
+    }
+}
+
+
+
 /* BUS & RAIL */
 
 const busEmissionFactors = {
@@ -380,6 +554,7 @@ export class AdvancedCalculator {
     constructor () {
         this.countries = Object.keys(houseKWhFactors)
         this.houseKWhFactors = houseKWhFactors
+        this.carDatabase = carDatabase
     }
 
     calculateFlight (isReturn, from, to, travelClass, trips, includeRad) {
@@ -471,6 +646,16 @@ export class AdvancedCalculator {
             return amount*currencyFactor*emissionFactor*1e-6/durationFactor
         })
         return emissions.reduce((a,b) => a + b, 0) / 1000
+    }
+
+    calculateCar(carType, subType, model, amount, isMiles) {
+        const emissionFactor=1e-6
+        let efficiency = 0
+        try {
+            efficiency = carDatabase[carType][subType][model]["average value"]
+        } catch (error) {}
+        const mileage = amount * (isMiles ? 1.609344 : 1)
+        return mileage*emissionFactor*efficiency
     }
 }
     

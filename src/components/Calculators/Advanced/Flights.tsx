@@ -20,8 +20,6 @@ import {
 } from '@chakra-ui/react'
 import { AdvancedCalculator } from './advanced'
 
-import airports from '../data/airports.json'
-
 const classEmissionFactors = {
   "Economy class":7.438461987823514e-05,
   "Premium economy":0.001292692579585472,
@@ -71,7 +69,6 @@ const deleteRow = (uuid) => {
 }
 
 useEffect(()=> {
-  console.log(isReturn, from, to, travelClass, trips, includeRadiativeForcing)
   const newFootprint =  calculator.calculateFlight(isReturn, from, to, travelClass, trips, includeRadiativeForcing)
   setFootprint(newFootprint)
 }, [isReturn, from, to, travelClass, trips, includeRadiativeForcing])

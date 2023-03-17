@@ -34,19 +34,26 @@ function GetOptionOrders() {
   <Table variant='simple' size="sm">
     <Thead>
       <Tr>
-        <Th>Qunatity</Th>
-        <Th>Premium</Th>
+        <Th>Type</Th>
+        <Th>Qtd</Th>
         <Th isNumeric>Prem.</Th>
+        <Th>Expiry</Th>
       </Tr>
     </Thead>
     <Tbody>
       { contracts.map(item =>
       <Tr key={item.uuid}>
         <Td>
+          {item.optionType}
+        </Td>
+        <Td  isNumeric>
           {item.quantity}
         </Td>
         <Td>
-          {item.premium}
+          {item.premium.toFixed(2)}
+        </Td>
+        <Td>
+          {item.expiry}
         </Td>
       </Tr>
         
