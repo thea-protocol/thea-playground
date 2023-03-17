@@ -49,6 +49,7 @@ const Feature = ({ label, value }) => {
 
 
           </Stack>    
+
     </Box>
   )
 }
