@@ -20,7 +20,7 @@ function GetOptionOrders() {
 
     const refresh = async () => {
         const res = await theaSDK.options.getOrders();
-        setContracts(res)
+        setContracts(res.result)
         console.log(res)
     }
 
@@ -34,13 +34,23 @@ function GetOptionOrders() {
   <Table variant='simple' size="sm">
     <Thead>
       <Tr>
-        <Th>Type</Th>
-        <Th>K</Th>
+        <Th>Qunatity</Th>
+        <Th>Premium</Th>
         <Th isNumeric>Prem.</Th>
-        <Th isNumeric></Th>
       </Tr>
     </Thead>
     <Tbody>
+      { contracts.map(item =>
+      <Tr key={item.uuid}>
+        <Td>
+          {item.quantity}
+        </Td>
+        <Td>
+          {item.premium}
+        </Td>
+      </Tr>
+        
+        )}
     </Tbody>
   </Table>
 </TableContainer>
