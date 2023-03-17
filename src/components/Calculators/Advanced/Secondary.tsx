@@ -14,22 +14,18 @@ import {
   NumberDecrementStepper,
   FormControl,
   FormLabel,
-  Switch
+  Switch,
+  Select
 } from '@chakra-ui/react'
 import { AdvancedCalculator } from './advanced'
 
 function Secondary({data, setData}) {
   const [footprint, setFootprint] = useState(0)  
-  const [bus, setBus] = useState(100)
-  const [coach, setCoach] = useState(100)
-  const [commuter, setCommuter] = useState(100)
-  const [train, setTrain] = useState(100)
-  const [tram, setTram] = useState(100)
-  const [subway, setSubway] = useState(100)
-  const [taxi, setTaxi] = useState(100)
-  const [isMiles, setIsMiles] = useState(true)
+  const [currency, setCurrency] = useState("USD")
+  const [duration, setDuration] = useState("per year")
+  const [food, setFood] = useState("for a heavy meat eater")
 
-  const [formData, setFormData] = useState({
+  const [consumption, setConsumption] = useState({
     'food': 0,
     'pharma': 0,
     'clothes': 0,
@@ -48,186 +44,89 @@ function Secondary({data, setData}) {
 
   const calculator = new AdvancedCalculator()
 
-  useEffect(() => { setData({...data, bus: footprint }) }, [footprint])
+  useEffect(() => { setData({...data, secondary: footprint }) }, [footprint])
 
   useEffect(()=> {
-    const consumption = {
-      "Bus": bus,
-      "Coach": coach,
-      "Local or Commuter Train": commuter,
-      "Long Distance Train": train,
-      "Tram": tram,
-      "Subway": subway,
-      "Taxi": taxi
-    }
-    const newFootprint =  calculator.calculateBus(consumption, isMiles)
+    const newFootprint =  calculator.calculateSecondary(consumption, currency, duration, food)
     setFootprint(newFootprint)
-  }, [
-      bus,
-      coach,
-      commuter,
-      train,
-      tram,
-      subway,
-      taxi
-  ])
+  }, [consumption, currency, duration, food])
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    setConsumption((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
   
   
   return (
     <>
-    <Text fontSize={'sm'}>Enter mileage for each type of public transport, and press the Calculate button</Text>
 
     <Text>Footprint: {footprint}</Text>
-    <Box w="96">
 
-    {JSON.stringify(formData, 2)}
-    </Box>
+    <Flex>
+        <FormControl mr="5%">
+          <FormLabel htmlFor="first-name" fontWeight={'normal'}>
+            Currency
+          </FormLabel>
+          <Select value={currency} onChange={(val) => setCurrency(val.target.value)}>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+        </Select>
+        </FormControl>
+        <FormControl mr="5%">
+          <FormLabel htmlFor="first-name" fontWeight={'normal'}>
+            Duration
+          </FormLabel>
+          <Select value={duration} onChange={(val) => setDuration(val.target.value)}>
+            <option value="per year">per year</option>
+            <option value="per month">per month</option>
+            <option value="per week">per week</option>
+        </Select>
+        </FormControl>
+    </Flex>
 
 
 
+    <Table  variant='simple'  size='xs' my="4">
+      <Tbody>
+        
     {
-        Object.keys(formData).map(key =>
-            <FormControl key={key} display='flex' alignItems='center' py="1">
-            <FormLabel w="20" mb='0' fontSize={'xs'}>
-                {key}
-            </FormLabel>
-            <NumberInput size='xs' w={20} min={1}  value={formData[key]} onChange={(value) => handleChange({ target: { name: key, value }})}>
+        Object.keys(consumption).map(key =>
+          <Tr key={key}>
+            <Td>{key}</Td>
+            <Td>
+              <NumberInput size='xs' w={20} min={0}  value={consumption[key]} onChange={(value) => handleChange({ target: { name: key, value }})}>
                   <NumberInputField name={key} />
                   <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
                   </NumberInputStepper>
               </NumberInput>
-        </FormControl>
-            
-            )
-    
-    }
-    <hr></hr>
-
-    <FormControl display='flex' alignItems='center' mt="10">
-        <FormLabel mb='0' fontSize={'xs'}>
-            Kms
-        </FormLabel>
-        <Switch id='units' value={isMiles} onChange={() => setIsMiles(!isMiles)}/>
-        <FormLabel mb='0' fontSize={'xs'} px='2'>
-            Miles
-        </FormLabel>
-    </FormControl>
-
-
-    <Table  variant='simple'  size='xs' my="4">
-      <Tbody>
-        <Tr>
-          <Td>Food and drink products</Td>
-          <Td>
-            <Flex>
-            <NumberInput size='xs' w={20} min={1}  value={bus} onChange={setBus}>
-                <NumberInputField />
-                <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                </NumberInputStepper>
-            </NumberInput>
-            <Text mx="6" w="20" color={'gray.300'} fontSize={'xs'}>{ isMiles ? 'miles' : 'kms'}</Text>
-            </Flex>
-          </Td>
-          <Td fontSize={'xs'}>
             </Td>
-
-        </Tr>
-        <Tr>
-          <Td>
-          Pharmaceuticals
-          </Td>
-          <Td>
-            <NumberInput size='xs' w={20} min={1}  value={coach} onChange={setCoach}>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                  </NumberInputStepper>
-              </NumberInput>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-          Clothes, textiles and shoes
-          </Td>
-          <Td>
-            <NumberInput size='xs' w={20} min={1}  value={commuter} onChange={setCommuter}>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                  </NumberInputStepper>
-              </NumberInput>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-          Paper based products (e.g. books, magazines, newspapers)
-          </Td>
-          <Td>
-            <NumberInput size='xs' w={20} min={1}  value={train} onChange={setTrain}>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                  </NumberInputStepper>
-              </NumberInput>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-          Computers and IT equipment
-          </Td>
-          <Td>
-            <NumberInput size='xs' w={20} min={1}  value={tram} onChange={setTram}>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                  </NumberInputStepper>
-              </NumberInput>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-          Television, radio and phone (equipment)
-          </Td>
-          <Td>
-            <NumberInput size='xs' w={20} min={1}  value={subway} onChange={setSubway}>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                  </NumberInputStepper>
-              </NumberInput>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-          Motor vehicles (not including fuel costs)
-          </Td>
-          <Td>
-            <NumberInput size='xs' w={20} min={1}  value={taxi} onChange={setTaxi}>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                  </NumberInputStepper>
-              </NumberInput>
-          </Td>
-        </Tr>
+            { (key == 'food') ?
+            <Td>
+            <Select w="32" size={"sm"} value={food} onChange={(val) => setFood(val.target.value)}>
+              <option value='for a heavy meat eater'>Heavy meat eater</option>
+              <option value='for a medium meat eater'>Medium meat eater</option>
+              <option value='for a low meat eater'>Low meat eater</option>
+              <option value='for a pescatarian'>Pescatarian</option>
+              <option value='for a vegetarian'>Vegetarian</option>
+              <option value='for a vegan'>Vegan</option>
+            </Select>
+            </Td>
+            : <></> }
+          </Tr>            
+            )
+    }
       </Tbody>
-
     </Table>
+
+
+<Box w="96">
+  {JSON.stringify(consumption, 2)}
+</Box>
+
+
 
 
 

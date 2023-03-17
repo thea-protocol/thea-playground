@@ -330,10 +330,56 @@ const busEmissionFactors = {
     "Taxi":0.2394
 }
 
+/* SECONDARY */ 
+
+const durationFactors = {
+    "per year":12*4.3333313247930199207028284264693,
+    "per month":4.3333313247930199207028284264693,
+    "per week":1
+}
+
+const currencyFactors = {
+    "GBP":1.2388678653661115841830696256037,
+    "EUR":1.0625797348269427630749745617082,
+    "USD":1,
+    "CAD":0.73499601902261625529900367971423,
+    "AUD":0.67541047104645908200813410514084,
+    "NZD":0.62088184028749112349637408276129,
+    "ZAR":0.05508811947235910567881044092014,
+    "CNY":0.14476924164686425020827121061676,
+    "HKD":0.12739435039364027335019997110333,
+    "INR":0.01223804707697888391224019895665
+}
+
+const emissionFactors_DOLLAR = {
+    "Food and drink products":{
+        "for a heavy meat eater":37305.97,
+        "for a medium meat eater":29213.76,
+        "for a low meat eater":24218.21,
+        "for a pescatarian (fish eater)":20274.35,
+        "for a vegetarian":19777.72,
+        "for a vegan":14986.66
+    },
+    "Pharmaceuticals": 21574.53,
+    "Clothes, textiles and shoes":32823.51,
+    "Paper based products (e.g. books, magazines, newspapers)":29297.71,
+    "Computers and IT equipment":19643.74,
+    "Television, radio and phone (equipment)":4659.09,
+    "Motor vehicles (not including fuel costs)":15362.41,
+    "Furniture and other manufactured goods":23631.25,
+    "Hotels, restaurants, and pubs etc.": 10115.68,
+    "Telephone, mobile/cell phone call costs":7471.34,
+    "Banking and finance (mortgage and loan interest payments)":2938.17,
+    "Insurance":2854.22,
+    "Education":2812.24,
+    "Recreational, cultural and sporting activities":6505.94,
+}
+
 
 export class AdvancedCalculator {
     constructor () {
         this.countries = Object.keys(houseKWhFactors)
+        this.houseKWhFactors = houseKWhFactors
     }
 
     calculateFlight (isReturn, from, to, travelClass, trips, includeRad) {
@@ -384,10 +430,8 @@ export class AdvancedCalculator {
         const unit = "g/km"
         return milage*emmissionFactors[unit]*efficiency
     }
-
     
-
-    calculateHouseHold(consumption, factor) {
+    calculateHouseHold(consumption) {
         const emissions = Object.keys(consumption).map(key => 
             consumption[key].amount * householdEmissionFactors[key][consumption[key].unit])
         return emissions.reduce((a,b) => a + b, 0) / 1000
@@ -400,6 +444,36 @@ export class AdvancedCalculator {
 
     }
 
+    calculateSecondary(consumption, currency, duration, food) {
+        const keyMap = {
+            "food": "Food and drink products",
+            "pharma": "Pharmaceuticals",
+            "clothes": "Clothes, textiles and shoes",
+            "paperBased": "Paper based products (e.g. books, magazines, newspapers)",
+            "IT": "Computers and IT equipment",
+            "TV": "Television, radio and phone (equipment)",
+            "motorVehicles": "Motor vehicles (not including fuel costs)",
+            "furniture": "Furniture and other manufactured goods",
+            "hotels": "Hotels, restaurants, and pubs etc.",
+            "phone": "Telephone, mobile/cell phone call costs",
+            "finance": "Banking and finance (mortgage and loan interest payments)",
+            "insurance": "Insurance",
+            "education": "Education",
+            "recreational": "Recreational, cultural and sporting activities",
+        }
+
+        const durationFactor = durationFactors[duration]
+        const currencyFactor = currencyFactors[currency]
+
+        console.log(duration, durationFactor, currencyFactor)
+
+        const emissions = Object.keys(consumption).map(key => {
+            const amount = consumption[key]
+            const emissionFactor = (key == 'food') ? emissionFactors_DOLLAR[keyMap[key]][food] : emissionFactors_DOLLAR[keyMap[key]]
+            return amount*currencyFactor*emissionFactor*1e-6/durationFactor
+        })
+        return emissions.reduce((a,b) => a + b, 0) / 1000
+    }
 }
     
     
