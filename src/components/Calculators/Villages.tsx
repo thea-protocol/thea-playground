@@ -99,16 +99,6 @@ function Villages() {
                 </Select>
             </FormControl>
 
-            <Flex py="6">
-            <FormLabel>Years</FormLabel>
-            <Slider value={years} onChange={(val) => setYears(val)} min={1} max={100}>
-                <SliderTrack>
-                    <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb />
-            </Slider>
-            <Text px="4">{years}</Text>
-        </Flex>        
 
             <FormControl>
                 <FormLabel>Village</FormLabel>
@@ -122,6 +112,20 @@ function Villages() {
                         )}
                 </Select>
             </FormControl>
+
+
+            <Flex py="6">
+            <FormLabel>Years</FormLabel>
+            <Slider value={years} onChange={(val) => setYears(val)} min={1} max={100}>
+                <SliderTrack>
+                    <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+            </Slider>
+            <Text px="4">{years}</Text>
+        </Flex>        
+
+
             </Box>
             <Box p="6">
                 <Flex>

@@ -7,6 +7,7 @@ import Simple3 from './Simple3'
 import Intermediate from './Intermediate'
 import Villages from './Villages'
 import Advanced from './Advanced'
+import Village from './SimpleVillage'
 
 function Calculators() {
     const [footprint, setFootprint] = useState(770)
@@ -18,6 +19,7 @@ function Calculators() {
             <Tab>Simple2</Tab>
             <Tab>Simple3</Tab>
             {/* <Tab>Intermediate</Tab> */}
+            <Tab>Simple Villages</Tab>
             <Tab>Villages</Tab>
             <Tab>Advanced</Tab>
         </TabList>
@@ -35,6 +37,9 @@ function Calculators() {
             {/* <TabPanel>
                 <Intermediate />
             </TabPanel> */}
+            <TabPanel>
+                <Village />
+            </TabPanel>
             <TabPanel>
                 <Villages />
             </TabPanel>
