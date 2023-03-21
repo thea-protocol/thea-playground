@@ -19,7 +19,7 @@ import { convertWithSig, recoverWithSig, retireWithSig } from "../../utils/utils
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
 function TokenActions() {
-  const { theaSDK, account } = useContext(TheaSDKContext);  
+  const { theaSDK, account, updateBalances } = useContext(TheaSDKContext);  
   const [output, setOutput] = useState({})   
   const [tokenId, setTokenId] = useState(2)
   const [amount, setAmount] = useState(1)

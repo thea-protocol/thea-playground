@@ -11,30 +11,28 @@ import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
 function QuoteTrade() {
   const { theaSDK } = useContext(TheaSDKContext);
-  const [tokenIn, setTokenIn] = useState("Stable")
-  const [tokenOut, setTokenOut] = useState("CurrentNBT")
+  const [tokenIn, setTokenIn] = useState("CurrentNBT")
+  const [tokenOut, setTokenOut] = useState("Stable")
   const [amountIn, setAmountIn] = useState(1)
   const [quote, setQuote] = useState(0)
 
   const getQuote = async () => {
-    console.log(tokenIn, tokenOut, amountIn)
     const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
       tokenIn,
       tokenOut,
-      amountIn: (amountIn * 1e4).toString()
+      amountIn: (amountIn * 1e6).toString()
     });  
-    setQuote(priceInWEI / 1e18)
+    console.log("Price", priceInWEI / 10e4)
+    setQuote(priceInWEI / 10e4)
   }
 
   const buy = async () => {
     const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
       tokenIn,
       tokenOut,
-      amountIn: (amountIn * 1000).toString()
+      amountIn: (amountIn * 1e4).toString()
     });
-
   }
-
 
   return (
   <Card>
@@ -61,10 +59,11 @@ function QuoteTrade() {
           size="sm"
           w="full"
           rounded="md">
-          <option>Stable</option>
-          <option>CurrentNBT</option>
-          <option>Vintage</option>
-          <option>Rating</option>
+          <option value="Stable">Stable</option>
+          <option value="CurrentNBT">CurrentNBT</option>
+          <option value="Vintage">Vintage</option>
+          <option value="SDG">SDG</option>
+          <option value="Rating">Rating</option>
         </Select>
       </FormControl>
 
@@ -90,6 +89,7 @@ function QuoteTrade() {
           <option value="Stable">Stable</option>
           <option value="CurrentNBT">CurrentNBT</option>
           <option value="Vintage">Vintage</option>
+          <option value="SDG">SDG</option>
           <option value="Rating">Rating</option>
         </Select>
       </FormControl>

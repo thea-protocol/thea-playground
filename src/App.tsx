@@ -11,6 +11,7 @@ import Trading from './components/Trading';
 import Auth from './components/Auth';
 import BuyNow from './components/Pages/BuyNow';
 import NaturaBasedTokens from './components/Pages/NaturaBasedTokens';
+import Stripe from './components/Stripe';
 
 import {
   createBrowserRouter,
@@ -60,6 +61,10 @@ function App() {
         {
           path: "/trade_nbt",
           element: <NaturaBasedTokens />,
+        },
+        {
+          path: "/stripe",
+          element: <Stripe />,
         },
   
       ]

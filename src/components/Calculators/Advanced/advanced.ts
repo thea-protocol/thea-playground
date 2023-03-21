@@ -643,7 +643,7 @@ export class AdvancedCalculator {
         const emissions = Object.keys(consumption).map(key => {
             const amount = consumption[key]
             const emissionFactor = (key == 'food') ? emissionFactors_DOLLAR[keyMap[key]][food] : emissionFactors_DOLLAR[keyMap[key]]
-            return amount*currencyFactor*emissionFactor*1e-6/durationFactor
+            return amount*currencyFactor*emissionFactor*1e-3/durationFactor
         })
         return emissions.reduce((a,b) => a + b, 0) / 1000
     }

@@ -15,11 +15,8 @@ import {
   FlexProps,
 } from '@chakra-ui/react';
 import { NavLink as RouterLink, Outlet } from "react-router-dom";
-import {
-  FiMenu,
-} from 'react-icons/fi';
-import { FaStore, FaCalculator, FaCubes, FaCube, FaInfoCircle, FaHome, FaStoreAlt, FaUserAlt, FaDesktop } from "react-icons/fa";
-
+import { FiMenu } from 'react-icons/fi';
+import { FaStore, FaCalculator, FaCubes, FaCube, FaInfoCircle, FaHome, FaStoreAlt, FaUserAlt, FaDesktop, FaStripeS } from "react-icons/fa";
 
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
@@ -42,8 +39,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Trading', icon: FaStoreAlt, href: '/trading' },
   { name: 'Marketplace', icon: FaStore, href: '/marketplace' },
   { name: 'Trade NBT', icon: FaDesktop, href: '/trade_nbt' },
-
-  
+  { name: 'Stripe', icon: FaStripeS, href: '/stripe' },
 ];
 
 export default function SidebarWithHeader() {
@@ -54,7 +50,6 @@ export default function SidebarWithHeader() {
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
       />
-
       <Drawer
         autoFocus={false}
         isOpen={isOpen}

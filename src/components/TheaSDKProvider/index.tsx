@@ -19,6 +19,7 @@ type State = {
   connect?: () => Promise<string[]>;
   disconnect?: () => Promise<boolean>;
   showUI?: () => Promise<boolean>;
+  updateBalances?: () => Promise<void>;
   userBalance?: UserBalance;
 };
 
@@ -90,10 +91,19 @@ function TheaSDKProvider({ children }: Props) {
     }
   };
 
+  const updateBalances = async () => {
+    if (!state.theaSDK || !state.account) return;
+    const balance = await state.theaSDK.carbonInfo.getUsersBalance(
+      state.account.toLowerCase()
+    );
+    setState((prevState) => ({ ...prevState, userBalance: balance }));
+  }
+
   const [state, setState] = useState<State>({
     provider,
     connect,
     disconnect,
+    updateBalances,
     showUI: async () => await magic.wallet.showUI(),
   });
 
@@ -118,6 +128,7 @@ function TheaSDKProvider({ children }: Props) {
     );
     setState((prevState) => ({ ...prevState, userBalance: balance }));
   }, [state.theaSDK, state.account]);
+
 
   useEffect(() => {
     loadSDK();
