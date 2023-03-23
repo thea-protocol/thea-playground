@@ -3,33 +3,47 @@ import { Card, Flex, Box, CardBody, CardHeader, Heading, Image, Text, Spacer, Bu
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 import axios from 'axios'
 
-
-
 function ProjectCard({props}) {
+    const { theaSDK } = useContext(TheaSDKContext);  
+
     const [data, setData] = useState()
+    const [nbtPrices, setNbtPrices] = useState({})
     const [prices, setPrices] = useState({})
 
-
     useEffect(()=> {
-        axios.post('https://client.dev.thea.earth/cli/tokens/nbtrates').then(resp => {
-            setPrices(resp.data?.result)
-        }, [])
 
+        axios.post('https://client.dev.thea.earth/cli/tokens/list', {}).then(resp => {
+            const newPrices = {}
+            priceResult.data?.result.forEach(item => {
+                newPrices[item.id] = item.price
+            })
+            setPrices(newPrices)
+
+
+        })
+    
+        
+        
+        
+
+        axios.post('https://client.dev.thea.earth/cli/tokens/nbtrates').then(resp => {
+            setNbtPrices(resp.data?.result)
+        }, [])
 
 
         const URI = props[0].tokenURI
         axios.get(`https://cloudflare-ipfs.com/ipfs/QmZQaskeasYPLmhEsrnTUL8RYxJvTHsWu9mTkwyRc8V6JT/${URI}`).then(resp => {
 
-            console.log(resp.data)
+
 
             setData({
                 name: resp.data.name?.match(/[^:]*$/)[0],
                 description: resp.data.description,
                 image: `https://cloudflare-ipfs.com/ipfs/${resp.data.image?.replace('ipfs://', '')}`,
                 location: resp.data.attributes?.find(item => item.trait_type == 'country').value,
-                
+                price: prices[props[0].id] * 1000,
+                nbtPrice: nbtPrices[props[0].id] * 1000  
             })
-
         })
     }, [])
 
@@ -61,38 +75,34 @@ function ProjectCard({props}) {
                         <Flex mt="4">
                             <Box  fontSize={"sm"}>
                                 <Text  color={"gray.400"}>Price per tonne:</Text>
-                                <Text>$10 | 14 NBT</Text>
+                                <Text>${data?.price} | {data?.nbtPrice.toFixed(2)} NBT</Text>
                             </Box>
                             <Spacer />
                             <SimpleGrid columns={2} spacing="2">
                                 <Button colorScheme={"blue"}>Offset Stripe</Button>
                                 <Button colorScheme={"blue"}>Offset NBT</Button>
                             </SimpleGrid>
-
                         </Flex>
                     </Box>
                 </Flex>
-
             </CardBody>
             </Card>
-
-
             :
             <Flex w="100%">
-            <Skeleton height='50px' width="500px" />
-
-        </Flex>
-
+                <Skeleton height='50px' width="500px" />
+            </Flex>
         }
-
-
 </>   )
 }
-
 
 function ProjectList() {
     const { theaSDK } = useContext(TheaSDKContext);  
     const [tokens, setTokens] = useState({})   
+
+    const offsetFungible = async () => {
+        await theaSDK.offset.offsetFungible(2017, "2000");
+    }
+
 
     const getTokenList = async () => {
         const info = await theaSDK.nftTokenList.getTokenList()
@@ -108,24 +118,19 @@ function ProjectList() {
     >
         <CardHeader>
             <Flex>
-            <Heading fontSize={"lg"}>Projects</Heading>
-            <Spacer />
-            <Button onClick={getTokenList}>Get Projects</Button>
-
+                <Heading fontSize={"lg"}>Projects</Heading>
+                <Spacer />
+                <Button onClick={getTokenList}>Get Projects</Button>
             </Flex>
         </CardHeader>
         <CardBody>
-        <SimpleGrid
-        justifyContent="center"
-        spacing={4} 
-        >      
-           { Object.keys(tokens).map(item => <ProjectCard props={tokens[item]} /> )}
-        </SimpleGrid>
-
-        
-
+            <SimpleGrid
+            justifyContent="center"
+            spacing={4} 
+            >      
+            { Object.keys(tokens).map(item => <ProjectCard key={item} props={tokens[item]} /> )}
+            </SimpleGrid>
         </CardBody>
-
         </Card>
   )
 }

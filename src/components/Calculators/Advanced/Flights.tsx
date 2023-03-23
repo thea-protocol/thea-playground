@@ -20,6 +20,14 @@ import {
 } from '@chakra-ui/react'
 import { AdvancedCalculator } from './advanced'
 
+//import SelectSearch from 'react-select-search';
+//import 'react-select-search/style.css'
+//import airports from '../data/airports.json'
+
+// import { InstantSearch, SearchBox } from 'react-instantsearch-dom';
+// import algoliasearch from 'algoliasearch' 
+
+
 const classEmissionFactors = {
   "Economy class":7.438461987823514e-05,
   "Premium economy":0.001292692579585472,
@@ -38,13 +46,14 @@ function Flights({data, setData}) {
   const [includeRadiativeForcing, setIncludeRadiativeForcing] = useState(false)
   const [rows, setRows] = useState([])
 
+
+
   const calculator = new AdvancedCalculator()
 
     useEffect(() => { setData({
       ...data,
       flights: rows.map(item => item.footprint).reduce((a,b) => a + b,  0)
     }) }, [rows])
-
 
   const addRow = () => {
     let uuid = self.crypto.randomUUID();
@@ -62,7 +71,6 @@ function Flights({data, setData}) {
     setRows(newRows)
 }
 
-
 const deleteRow = (uuid) => {
   const newRows = rows.filter(item => item.uuid != uuid)
   setRows(newRows)
@@ -75,8 +83,18 @@ useEffect(()=> {
 
 
 
+// const searchClient = algoliasearch('3S6KBS5B7L', '9758a4bd697c42d64e015c2d83279822');
+
   return (
     <>
+{/* <InstantSearch indexName="airports" searchClient={searchClient}>
+<SearchBox />
+
+</InstantSearch> */}
+
+
+{/* { JSON.stringify(to)} */}
+{/* <SelectSearch options={airports} value={to} name="language" search="true" placeholder="Choose airport" /> */}
 
 <TableContainer mt="10">
     <Table variant='simple'  size='xs'>

@@ -55,7 +55,7 @@ function BuyNow() {
     const [nbtPrice, setNBTPrice] = useState(0)
     const [expiry, setExpiry] = useState("March 20")
     const [strike, setStrike] = useState(0)
-    const [premium, setPremium] = useState(0.2)
+    const [premium, setPremium] = useState(0)
     const [discountedPrice, setDiscountedrice] = useState(0)
     const [usdcBalance, setUsdcBalance] = useState(0)
     const [contractID, setContractID] = useState('')
