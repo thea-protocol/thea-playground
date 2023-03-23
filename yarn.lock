@@ -2910,10 +2910,10 @@
     "@tanstack/query-core" "4.26.0"
     use-sync-external-store "^1.2.0"
 
-"@thea-protocol/sdk@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@thea-protocol/sdk/-/sdk-2.3.0.tgz#30d67d3726172de6a1426f5f5d671c027b99b9d6"
-  integrity sha512-xP25f8Dj8uDf0Gi736bbFV/ysbSXIVrv/rXJiSNvdWeRSuQ6WRRmsDxAlftftgzI/EhcE5j3XebYyROpfwweuQ==
+"@thea-protocol/sdk@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@thea-protocol/sdk/-/sdk-2.3.2.tgz#2f65f5e4a60ae9ec4fbec003a0ff8d6f53b0ee58"
+  integrity sha512-6CyO+gtI+d6/H9Rlqshm2XcEtKR0QWa9plkaKeVaDWMXL/lj/Au21Kb6iz4Ii9Pu/WpTy466BhUZRQWblqAuTg==
   dependencies:
     axios "^1.2.2"
     uuid "^8.3.2"

@@ -3,6 +3,7 @@ import { Heading, SimpleGrid } from '@chakra-ui/react'
 import GetStrikePremium from './GetStrikePremium'
 import GetOptionOrders from './GetOptionOrders'
 import CreateOrder from './CreateOrder'
+import Wallet from '../Wallet'
 
 function Trading() {
   return (<>
@@ -13,6 +14,7 @@ function Trading() {
       <GetStrikePremium />
       <CreateOrder />
       <GetOptionOrders />
+      <Wallet />
 
     </SimpleGrid>
   </>

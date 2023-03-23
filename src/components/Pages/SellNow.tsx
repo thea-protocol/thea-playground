@@ -65,7 +65,7 @@ function SellNow() {
     const updatePrices = async () => {
         const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
             tokenIn: 'CurrentNBT', tokenOut: 'Stable',
-            amountIn: (100 * 1e4).toString()
+            amountIn: (1 * 1e4).toString()
           });  
           setNBTPrice(priceInWEI / 1e18)
 

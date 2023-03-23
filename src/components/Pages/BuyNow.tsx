@@ -60,8 +60,6 @@ function BuyNow() {
     const [usdcBalance, setUsdcBalance] = useState(0)
     const [contractID, setContractID] = useState('')
 
-
-
     const getUSDCBalance = async () => {
       const abi = [{
         "inputs": [{ "internalType": "address", "name": "account", "type": "address"}],
@@ -71,10 +69,10 @@ function BuyNow() {
         "type": "function"
         }]
 
-      const tokenContractAddress = '0x014349F1C543038a76384cFC1A68f1881AFc6B0a';
+      const tokenContractAddress = '0x1D6DBfb520ee332bc14e800A832389F731820787';
       console.log(provider)
       const contract = new ethers.Contract(tokenContractAddress, abi, provider);
-      const balance = (await contract.balanceOf(account) / 1e18).toFixed(2);
+      const balance = (await contract.balanceOf(account) / 1e6).toFixed(2);
       setUsdcBalance(balance)
     }
 
@@ -86,19 +84,19 @@ function BuyNow() {
     
     const buyNow = async () => {
       const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
-        tokenIn: 'Stable',
-        tokenOut: 'CurrentNBT',
-        amountIn: (amountIn * 1e18).toString()
+        tokenIn: 'CurrentNBT',
+        tokenOut: 'Stable',
+        amountIn: (amountIn * 1e6).toString()
     });  
 
       console.log(priceInWEI)
   
 
-      // const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
-      //   tokenIn: 'Stable',
-      //   tokenOut: 'CurrentNBT',
-      //   amountIn: (amountIn * 10).toString()
-      // });
+      const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
+        tokenIn: 'CurrentNBT',
+        tokenOut: 'Stable',
+        amountIn: (amountIn * 1e6).toString()
+      });
 
     }
 
@@ -118,9 +116,9 @@ function BuyNow() {
     const updatePrices = async () => {
         const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
             tokenIn: 'CurrentNBT', tokenOut: 'Stable',
-            amountIn: (100 * 1e4).toString()
+            amountIn: (1 * 1e4).toString()
           });  
-          setNBTPrice(priceInWEI / 1e18)
+          setNBTPrice(priceInWEI / 1e6)
 
           const contracts = await theaSDK.options.getCurrentStrikeAndPremium();
 
@@ -133,7 +131,7 @@ function BuyNow() {
 
           setPremium(contract?.premiumPrice)
 
-          setDiscountedrice((priceInWEI / 1e18) - premium)
+          setDiscountedrice((priceInWEI / 1e6) - premium)
           console.log(contract)
       
 

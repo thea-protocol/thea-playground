@@ -10,7 +10,7 @@ import {
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
 function QuoteTrade() {
-  const { theaSDK } = useContext(TheaSDKContext);
+  const { theaSDK, updateBalances } = useContext(TheaSDKContext);
   const [tokenIn, setTokenIn] = useState("CurrentNBT")
   const [tokenOut, setTokenOut] = useState("Stable")
   const [amountIn, setAmountIn] = useState(1)
@@ -20,18 +20,24 @@ function QuoteTrade() {
     const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
       tokenIn,
       tokenOut,
-      amountIn: (amountIn * 1e6).toString()
+      amountIn: (amountIn * 1e4).toString()
     });  
-    console.log("Price", priceInWEI / 10e4)
-    setQuote(priceInWEI / 10e4)
+    console.log("Price", priceInWEI / 1e6)
+    setQuote(priceInWEI / 1e6)
   }
 
   const buy = async () => {
     const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
-      tokenIn,
-      tokenOut,
-      amountIn: (amountIn * 1e4).toString()
+      tokenIn: tokenOut,
+      tokenOut: tokenIn,
+      amountIn: parseInt(quote * amountIn * 1e6).toString()
     });
+
+    if (transactionReceipt) {
+      console.log(1)
+      updateBalances()
+
+    }
   }
 
   return (

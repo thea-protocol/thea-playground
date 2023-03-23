@@ -21,7 +21,7 @@ import {
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 
 function CreateOrder() {
-  const { theaSDK, account, userBalance } = useContext(TheaSDKContext);  
+  const { theaSDK, account, userBalance, updateBalances } = useContext(TheaSDKContext);  
   const [contracts, setContracts] = useState([])
   const [contract, setContract] = useState("")
   const [amountIn, setAmountIn] = useState(1)
@@ -31,7 +31,10 @@ function CreateOrder() {
   const createOrder = async () => {
     try {
         console.log(contract, amountIn)
-        const order = theaSDK.options.createOrder(contract, amountIn);
+        const order = await theaSDK.options.createOrder(contract, amountIn);
+        if (order) {
+          updateBalances()
+        } 
         console.log(order)
     } catch(error) {
         toast({
@@ -78,7 +81,7 @@ function CreateOrder() {
               rounded="md">
                 <option>Please select a contract</option>
               { contracts.map(item =>
-              <option key={item.uuid} value={item.uuid}>{ item.optionType } @ { item.strike } for { item.premiumPrice.toFixed(3) }</option>
+              <option key={item.uuid} value={item.uuid}>{ item.optionType } @ { item.strike } for { item.premiumPrice?.toFixed(3) }</option>
                 
                 )}
             </Select>

@@ -19,7 +19,7 @@ function GetStrikePremium() {
     const refresh = async () => {
         const res = await theaSDK.options.getCurrentStrikeAndPremium();
         setContracts(res)
-        console.log(res)
+        console.log("Options", res)
     }
 
   return (
@@ -43,7 +43,7 @@ function GetStrikePremium() {
         <Tr key={contract.uuid}>
             <Td>{ contract.optionType}</Td>
             <Td>{ contract.strike}</Td>
-            <Td isNumeric>{ contract.premiumPrice.toFixed(4)  }</Td>
+            <Td isNumeric>{ contract.premiumPrice?.toFixed(4)  }</Td>
             <Td isNumeric>{ contract.expiry }</Td>
         </Tr>
             )}

@@ -92,12 +92,14 @@ function TheaSDKProvider({ children }: Props) {
   };
 
   const updateBalances = async () => {
+    console.log(5)
     if (!state.theaSDK || !state.account) return;
     const balance = await state.theaSDK.carbonInfo.getUsersBalance(
       state.account.toLowerCase()
     );
     setState((prevState) => ({ ...prevState, userBalance: balance }));
   }
+
 
   const [state, setState] = useState<State>({
     provider,

@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardBody, Select, Flex, Box, FormControl, FormLabel, Heading, Text, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from '@chakra-ui/react'
-
 import {
-    Stat,
-    StatLabel,
-    StatNumber,
-    StatHelpText,
-    SimpleGrid
-  } from '@chakra-ui/react'
-  import {
-    Avatar,
-    Center,
+    SimpleGrid,
     Image,
     Stack,
     Button,
@@ -19,7 +10,6 @@ import {
 
 
 function Village() {
-
     const RURAL_FOOTPRINT = 0.56 // https://medwinpublishers.com/JENR/household-carbon-footprint-rural-and-urban-community.pdf
     const [years, setYears] = useState(1)
 
@@ -64,10 +54,8 @@ function Village() {
     const [villageID, setVillageID] = useState()
     const [village, setVillage] = useState()
     const [price, setPrice] = useState()
-    const [villageInfo, setVillageInfo] = useState({})
     const [footprint, setFootprint] = useState(0)
   
-
     useEffect(() =>{
         const newVillage = villages.find(item => item.id == villageID)
         setVillage(newVillage)
@@ -76,30 +64,6 @@ function Village() {
 
     },[villageID, years])
     
-    
-
-    
-    // useEffect(() => {
-    //     if (!country || villages.length < 1 ) return
-    //     const isoCode = villages?.find(item => item['Country name EN'] == country)['Country Code']
-
-    //     setVillageInfo(villages.find(item => item.Name == village))
-        
-    //     const birthYear = 1923
-    //     const res = theaSDK?.carbonInfo.estimateFootprint(birthYear, [
-    //         {
-    //             isoCode: isoCode,
-    //             year: null,
-    //         },
-    //     ]);
-    //       if (res) {
-    //         makeChartData(res)
-    //         const newFootprint = res.details.slice(-years).reduce((a,b) => a + b.co2Emission, 0) * villageInfo?.Population
-    //         setFootprint(newFootprint)
-
-    //       }
-    //   }, [village, years]);
-
 
   return (
     <Card>
@@ -135,72 +99,69 @@ function Village() {
 
           { village ? 
 
-<Box
-maxW={'270px'}
-w={'full'}
-bg={useColorModeValue('white', 'gray.800')}
-boxShadow={'2xl'}
-rounded={'md'}
-overflow={'hidden'}>
-<Image
-  h={'220px'}
-  w={'full'}
-  src={ village?.image }
-  objectFit={'cover'}
-/>
+            <Box
+            maxW={'270px'}
+            w={'full'}
+            bg={useColorModeValue('white', 'gray.800')}
+            boxShadow={'2xl'}
+            rounded={'md'}
+            overflow={'hidden'}>
+            <Image
+            h={'220px'}
+            w={'full'}
+            src={ village?.image }
+            objectFit={'cover'}
+            />
 
-<Box p={6}>
-  <Stack spacing={0} align={'center'} mb={5}>
-    <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
-      { village?.name}
-    </Heading>
-  </Stack>
+            <Box p={6}>
+            <Stack spacing={0} align={'center'} mb={5}>
+                <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
+                { village?.name}
+                </Heading>
+            </Stack>
 
-  <Stack direction={'row'} justify={'center'} spacing={6}>
-    <Stack spacing={0} align={'center'}>
-      <Text fontWeight={600}>{village.population}</Text>
-      <Text fontSize={'sm'} color={'gray.500'}>
-        Population
-      </Text>
-    </Stack>
-    <Stack spacing={0} align={'center'}>
-      <Text fontWeight={600}>{ footprint.toFixed(0)}</Text>
-      <Text fontSize={'sm'} color={'gray.500'}>
-        Footprint
-      </Text>
-    </Stack>
-    <Stack spacing={0} align={'center'}>
-      <Text fontWeight={600}>{ price.toFixed(0)}</Text>
-      <Text fontSize={'sm'} color={'gray.500'}>
-        Value
-      </Text>
-    </Stack>
-  </Stack>
+            <Stack direction={'row'} justify={'center'} spacing={6}>
+                <Stack spacing={0} align={'center'}>
+                <Text fontWeight={600}>{village.population}</Text>
+                <Text fontSize={'sm'} color={'gray.500'}>
+                    Population
+                </Text>
+                </Stack>
+                <Stack spacing={0} align={'center'}>
+                <Text fontWeight={600}>{ footprint.toFixed(0)}</Text>
+                <Text fontSize={'sm'} color={'gray.500'}>
+                    Footprint
+                </Text>
+                </Stack>
+                {/* <Stack spacing={0} align={'center'}>
+                <Text fontWeight={600}>{ price.toFixed(0)}</Text>
+                <Text fontSize={'sm'} color={'gray.500'}>
+                    Value
+                </Text>
+                </Stack> */}
+            </Stack>
 
-  <Button
-    w={'full'}
-    mt={8}
-    bg={useColorModeValue('#151f21', 'gray.900')}
-    color={'white'}
-    rounded={'md'}
-    _hover={{
-      transform: 'translateY(-2px)',
-      boxShadow: 'lg',
-    }}>
-    Offset
-  </Button>
-</Box>
-</Box>                
-
-
-: <></>
-}
+            <Button
+                w={'full'}
+                mt={8}
+                bg={useColorModeValue('#151f21', 'gray.900')}
+                color={'white'}
+                rounded={'md'}
+                _hover={{
+                transform: 'translateY(-2px)',
+                boxShadow: 'lg',
+                }}>
+                Offset
+            </Button>
+            </Box>
+            </Box>                
 
 
+            : <></>
+            }
             </SimpleGrid>
         </CardBody>
     </Card>
   )
 }
-
 export default Village
