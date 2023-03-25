@@ -7,6 +7,7 @@ import OffsetHist from './OffsetHist'
 import UserBalance from './UserBalance'
 import UserProfile from './UserProfile'
 import NextOffset from './NextOffsetEvent'
+import UserOffsetHistory from './UserOffsetHistory'
 
 function CarbonInfo() {
   return (
@@ -22,6 +23,7 @@ function CarbonInfo() {
         <UserBalance />
         <UserProfile />
         <NextOffset />
+        <UserOffsetHistory />
     </SimpleGrid>
 
     </>

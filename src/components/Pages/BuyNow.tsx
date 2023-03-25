@@ -1,17 +1,26 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Spacer, Stack, Button, StackDivider, Heading, Flex, Box, Text, Image,  NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, GridItem } from '@chakra-ui/react'
+import { Spacer, Stack, Button, StackDivider, Heading, Flex, Box, Text, Image,  NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, GridItem, CardBody } from '@chakra-ui/react'
 import { TheaSDKContext } from "../../components/TheaSDKProvider";
 import NBT from '../../assets/nbt.svg'
 import USDC from '../../assets/usdc.svg'
 import { ethers} from 'ethers'
+import moment from 'moment'
+import { useToast } from '@chakra-ui/react'
 
 import {
+  Card,
   Table,
   Tbody,
   Tr,
   Th,
   Td,
   TableContainer,
+} from '@chakra-ui/react'
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react'
 
 const RowItem = ({label, scenario, valUSDC, valNBT}) => {
@@ -44,13 +53,12 @@ const RowItem = ({label, scenario, valUSDC, valNBT}) => {
 
             </Flex>
           </Box>
-
   )
 }
 
 function BuyNow() {
     const { theaSDK, provider, account } = useContext(TheaSDKContext);
-
+    const toast = useToast()
     const [amountIn, setAmountIn] = useState(0)
     const [nbtPrice, setNBTPrice] = useState(0)
     const [expiry, setExpiry] = useState("March 20")
@@ -78,35 +86,77 @@ function BuyNow() {
 
     useEffect(() => {
       getUSDCBalance()
-    }, [amountIn])
+    }, [])
 
+    const checkAmount = () => {
+      if (amountIn < 1) {
+        toast({
+          title: 'Invalid Amount',
+          description: "Amount must be positive",
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })     
+        return 
+      }
+    }
 
     
     const buyNow = async () => {
-      const priceInWEI = await theaSDK.fungibleTrading.queryTokenPrice({
-        tokenIn: 'CurrentNBT',
-        tokenOut: 'Stable',
-        amountIn: (amountIn * 1e6).toString()
-    });  
-
-      console.log(priceInWEI)
-  
-
+      checkAmount()      
       const transactionReceipt = await theaSDK.fungibleTrading.swapTokens({
-        tokenIn: 'CurrentNBT',
-        tokenOut: 'Stable',
-        amountIn: (amountIn * 1e6).toString()
+        tokenIn: 'Stable',
+        tokenOut: 'CurrentNBT',
+        amountIn: (nbtPrice * amountIn * 1e6).toString()
       });
 
+      if(transactionReceipt) {
+        toast({
+          title: 'Transaction Successful',
+          description: "Your pending transaction have been completed. <a href='#'>View it here</a>",
+          status: 'success',
+          variant: 'subtle',
+          duration: 9000,
+          position: 'top-right',
+          isClosable: true,
+          render: () => (
+            <Alert status='success'>
+            <AlertIcon />
+            <Box>
+              <AlertTitle>Transaction Successful</AlertTitle>
+              <AlertDescription>
+                Your pending transaction have been completed.<br /> 
+                <u><a 
+                target="_blank" 
+                href={`https://mumbai.polygonscan.com/tx/${transactionReceipt.transactionHash}`}
+                >View it here</a></u>
+              </AlertDescription>
+            </Box>
+          </Alert>
+          ),          
+        })        
+
+      }
     }
 
     const buyLater = async () => {
-      const order = theaSDK.options.createOrder(contractID, amountIn);
-      console.log(order)
+      checkAmount()      
+      const order = await theaSDK.options.createOrder(contractID, amountIn);
+      if(order) {
+        toast({
+          title: 'Transaction Successful',
+          description: `Your have commited to buy ${order.result.quantity} NBT @ ${strike} on ${expiry}.`,
+          status: 'success',
+          variant: 'subtle',
+          duration: 9000,
+          position: 'top-right',
+          isClosable: true,
+        })        
 
+      }
     }
 
-  
 
 
     useEffect(() => {
@@ -123,9 +173,11 @@ function BuyNow() {
           const contracts = await theaSDK.options.getCurrentStrikeAndPremium();
 
           const contract = contracts.find(item => item.optionType == 'Put')
+
           setContractID(contract?.uuid)
+
           // TODO: Format date to String
-          // setExpiry(contract.expiry)
+          setExpiry(moment(contract.expiry).format('LL'))
 
           setStrike(contract.strike)
 
@@ -181,6 +233,7 @@ function BuyNow() {
                     <Text fontWeight={600} px="6">on {expiry}</Text>
                 </Flex>
             </Stack>
+            <Text fontSize="xs">*commit {discountedPrice.toFixed(2)}$ today and EITHER receive NBT ( if NBT<sub>{expiry}</sub> &#60; {strike}$ ) OR get back your {discountedPrice.toFixed(2)}$+{(100*premium).toFixed(2)}c ( if NBT<sub>{expiry}</sub> &ge; {strike}$ )</Text>
 
             </Box>
             

@@ -9,7 +9,7 @@ import { TheaSDKContext } from "./TheaSDKProvider";
 import { ethers} from 'ethers'
 
 function Wallet() {
-    const { userBalance, provider, account, updateBalances } = useContext(TheaSDKContext);
+    const { userBalance, provider, account, updateBalances, showUI } = useContext(TheaSDKContext);
     const [usdcBalance, setUsdcBalance] = useState(0)
 
 
@@ -21,6 +21,7 @@ function Wallet() {
           "stateMutability": "view",
           "type": "function"
           }]
+          console.log(account)
   
         const tokenContractAddress = '0x1D6DBfb520ee332bc14e800A832389F731820787';
         console.log(provider)
@@ -43,7 +44,7 @@ function Wallet() {
         Wallet
       </Text>
       <Spacer />
-      <Button size="xs" mx="4" onClick={updateBalances}>Refresh</Button>
+      <Button size="xs" mx="4" onClick={showUI}>Refresh</Button>
     </Flex>
     <Flex backgroundColor='green.100' py="1">
         <Text fontSize="xs" px="4" >March 20, 2023 14:30pm</Text>
